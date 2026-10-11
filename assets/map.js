@@ -1,6 +1,7 @@
 /**
  * Interactive Earth with anonymous country-level presence dots.
- * Modes: satellite texture | political borders. Flat circles; color = activity.
+ * Modes: satellite texture | political borders.
+ * Markers are CSS discs (htmlElements) so zoom keeps true circles; color = activity.
  */
 
 /** Approximate centroids [lat, lon] for display only. */
@@ -102,18 +103,38 @@ function toPoints(rows) {
     total += row.hits;
     const [lat, lng] = CENTROIDS[row.country_code];
     const color = colorForHits(row.hits, maxHits);
+    const intensity = Math.sqrt(row.hits / maxHits);
     return {
       lat,
       lng,
-      size: 1.25,
-      altitude: 0.005,
+      altitude: 0.012,
       country: row.country_code,
       hits: row.hits,
       color,
-      ringMax: 2.8 + Math.sqrt(row.hits / maxHits) * 2.2,
+      /** Screen-space pixel diameter — stays a true circle when zoomed. */
+      px: 11 + intensity * 7,
     };
   });
   return { points, countries: usable.length, hits: total, maxHits };
+}
+
+/** CSS discs instead of low-poly 3D spheres (those look hexagonal when zoomed). */
+function makeDotElement(d) {
+  const wrap = document.createElement('div');
+  wrap.className = 'globe-dot';
+  wrap.style.setProperty('--dot-color', d.color);
+  wrap.style.setProperty('--dot-size', `${d.px}px`);
+  wrap.title = `${d.country} · ${d.hits} anonymous signals`;
+  wrap.setAttribute('aria-label', wrap.title);
+
+  const core = document.createElement('span');
+  core.className = 'globe-dot-core';
+  const pulse = document.createElement('span');
+  pulse.className = 'globe-dot-pulse';
+  pulse.setAttribute('aria-hidden', 'true');
+
+  wrap.append(core, pulse);
+  return wrap;
 }
 
 async function fetchPresence(days = 14) {
@@ -250,34 +271,17 @@ async function bootMap() {
     .width(width)
     .height(height)
     .backgroundColor('rgba(0,0,0,0)')
-    .pointsData(points)
-    .pointLat('lat')
-    .pointLng('lng')
-    .pointAltitude('altitude')
-    .pointRadius('size')
-    .pointColor('color')
-    .pointLabel(
-      (d) =>
-        `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${d.hits} anonymous signals</span></div>`,
-    )
-    .ringsData(points)
-    .ringLat('lat')
-    .ringLng('lng')
-    .ringAltitude(0.006)
-    .ringColor((d) => {
-      const base = d.color || 'rgb(220, 38, 38)';
-      const m = base.match(/\d+/g);
-      if (!m || m.length < 3) {
-        return (t) => `rgba(220, 38, 38, ${Math.max(0, 0.75 * (1 - t))})`;
-      }
-      const [r, g, b] = m;
-      return (t) => `rgba(${r}, ${g}, ${b}, ${Math.max(0, 0.8 * (1 - t))})`;
+    // Screen-space HTML discs stay perfectly round when zoomed (unlike 3D point meshes).
+    .htmlElementsData(points)
+    .htmlLat('lat')
+    .htmlLng('lng')
+    .htmlAltitude('altitude')
+    .htmlElement(makeDotElement)
+    .htmlElementVisibilityModifier((el, visible) => {
+      el.style.opacity = visible ? '1' : '0';
     })
-    .ringMaxRadius('ringMax')
-    .ringPropagationSpeed(2.2)
-    .ringRepeatPeriod(1100)
-    .polygonsTransitionDuration(400)
-    .pointsMerge(false);
+    .htmlTransitionDuration(0)
+    .polygonsTransitionDuration(400);
 
   applyMode(globe, mode, polygons);
 
