@@ -75,9 +75,9 @@ const MODE_KEY = 'gleaner.globeMode';
 
 /**
  * Absolute activity scale (not country-vs-country).
- * ~1 signal → light blue; ~100+ in 14 days → deep red.
+ * 1 signal → light blue; 100_000 → deep red; in between by log proportion.
  */
-const HITS_FOR_MAX_COLOR = 100;
+const HITS_FOR_MAX_COLOR = 100_000;
 
 function activityT(hits) {
   const n = Math.max(0, Number(hits) || 0);
