@@ -73,9 +73,19 @@ const WORLD_TOPO =
 
 const MODE_KEY = 'gleaner.globeMode';
 
-/** Heatmap: few → many (light blue → deep / black-red). */
-function colorForHits(hits, maxHits) {
-  const t = Math.min(1, Math.max(0, hits / Math.max(maxHits, 1)));
+/**
+ * Absolute activity scale (not country-vs-country).
+ * ~1 signal → light blue; ~100+ in 14 days → deep red.
+ */
+const HITS_FOR_MAX_COLOR = 100;
+
+function activityT(hits) {
+  const n = Math.max(0, Number(hits) || 0);
+  return Math.min(1, Math.log1p(n) / Math.log1p(HITS_FOR_MAX_COLOR));
+}
+
+function colorForHits(hits) {
+  const t = activityT(hits);
   const stops = [
     [186, 230, 253], // #bae6fd light blue
     [56, 189, 248], // #38bdf8
@@ -97,12 +107,11 @@ function colorForHits(hits, maxHits) {
 
 function toPoints(rows) {
   const usable = rows.filter((r) => CENTROIDS[r.country_code]);
-  const maxHits = Math.max(...usable.map((r) => r.hits), 1);
   let total = 0;
   const points = usable.map((row) => {
     total += row.hits;
     const [lat, lng] = CENTROIDS[row.country_code];
-    const color = colorForHits(row.hits, maxHits);
+    const t = activityT(row.hits);
     return {
       lat,
       lng,
@@ -110,11 +119,11 @@ function toPoints(rows) {
       altitude: 0.005,
       country: row.country_code,
       hits: row.hits,
-      color,
-      ringMax: 2.8 + Math.sqrt(row.hits / maxHits) * 2.2,
+      color: colorForHits(row.hits),
+      ringMax: 2.6 + t * 2.4,
     };
   });
-  return { points, countries: usable.length, hits: total, maxHits };
+  return { points, countries: usable.length, hits: total };
 }
 
 async function fetchPresence(days = 14) {
