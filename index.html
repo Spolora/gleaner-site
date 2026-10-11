@@ -8,7 +8,7 @@
       name="description"
       content="Gleaner by Spolora — save English words while you read, review in a side panel, export to Anki. A quiet community of learners on one shared planet."
     />
-    <link rel="stylesheet" href="assets/site.css" />
+    <link rel="stylesheet" href="assets/site.css?v=2" />
   </head>
   <body>
     <nav class="nav" aria-label="Primary">
@@ -83,7 +83,9 @@
             class="world-globe"
             role="img"
             aria-label="Interactive Earth with anonymous country-level activity"
-          ></div>
+          >
+            <p class="globe-loading" id="globe-loading">Loading Earth…</p>
+          </div>
           <p class="map-hint">Drag to spin · Scroll to zoom</p>
         </div>
       </div>
@@ -100,8 +102,8 @@
       </div>
     </footer>
 
-    <script src="./config.js"></script>
-    <script src="https://unpkg.com/globe.gl@2.33.1/dist/globe.gl.min.js"></script>
-    <script src="./assets/map.js"></script>
+    <script src="./config.js?v=2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.33.1/dist/globe.gl.min.js"></script>
+    <script src="./assets/map.js?v=2"></script>
   </body>
 </html>

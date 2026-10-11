@@ -298,13 +298,26 @@ a:hover {
 }
 
 .world-globe {
+  position: relative;
   width: 100%;
-  min-height: 360px;
+  min-height: 420px;
   border-radius: 20px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 45%, #dfe7ef 0%, #eef1f5 55%, #f5f5f7 100%);
+    radial-gradient(circle at 50% 45%, #1a2330 0%, #0f141c 60%, #0b0e13 100%);
   cursor: grab;
+}
+
+.globe-loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.95rem;
+  z-index: 1;
+  pointer-events: none;
 }
 
 .world-globe:active {

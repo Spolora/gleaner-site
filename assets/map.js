@@ -61,11 +61,9 @@ const CENTROIDS = {
 };
 
 const EARTH_IMG =
-  'https://unpkg.com/three-globe@2.31.1/example/img/earth-blue-marble.jpg';
+  'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-blue-marble.jpg';
 const TOPO_IMG =
-  'https://unpkg.com/three-globe@2.31.1/example/img/earth-topology.png';
-const NIGHT_IMG =
-  'https://unpkg.com/three-globe@2.31.1/example/img/earth-night.jpg';
+  'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-topology.png';
 
 function toPoints(rows) {
   const usable = rows.filter((r) => CENTROIDS[r.country_code]);
@@ -115,13 +113,19 @@ function sizeGlobe(el) {
 async function bootMap() {
   const el = document.getElementById('world-globe');
   const stat = document.getElementById('map-stat');
+  const loading = document.getElementById('globe-loading');
   if (!el || typeof Globe !== 'function') {
+    if (loading) {
+      loading.textContent =
+        'Could not load the 3D Earth (network/CDN). Hard-refresh or try another network.';
+    }
     if (stat) {
       stat.innerHTML =
         'Unable to load the interactive Earth <span>· try refreshing</span>';
     }
     return;
   }
+  if (loading) loading.remove();
 
   let rows = [];
   try {
@@ -191,8 +195,6 @@ async function bootMap() {
     globe.width(next.width);
     globe.height(next.height);
   });
-
-  void NIGHT_IMG;
 }
 
 bootMap();
