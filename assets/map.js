@@ -101,14 +101,16 @@ function toPoints(rows) {
   const points = usable.map((row) => {
     total += row.hits;
     const [lat, lng] = CENTROIDS[row.country_code];
+    const color = colorForHits(row.hits, maxHits);
     return {
       lat,
       lng,
-      size: 0.85,
-      altitude: 0.004,
+      size: 1.25,
+      altitude: 0.005,
       country: row.country_code,
       hits: row.hits,
-      color: colorForHits(row.hits, maxHits),
+      color,
+      ringMax: 2.8 + Math.sqrt(row.hits / maxHits) * 2.2,
     };
   });
   return { points, countries: usable.length, hits: total, maxHits };
@@ -258,6 +260,22 @@ async function bootMap() {
       (d) =>
         `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${d.hits} anonymous signals</span></div>`,
     )
+    .ringsData(points)
+    .ringLat('lat')
+    .ringLng('lng')
+    .ringAltitude(0.006)
+    .ringColor((d) => {
+      const base = d.color || 'rgb(220, 38, 38)';
+      const m = base.match(/\d+/g);
+      if (!m || m.length < 3) {
+        return (t) => `rgba(220, 38, 38, ${Math.max(0, 0.75 * (1 - t))})`;
+      }
+      const [r, g, b] = m;
+      return (t) => `rgba(${r}, ${g}, ${b}, ${Math.max(0, 0.8 * (1 - t))})`;
+    })
+    .ringMaxRadius('ringMax')
+    .ringPropagationSpeed(2.2)
+    .ringRepeatPeriod(1100)
     .polygonsTransitionDuration(400)
     .pointsMerge(false);
 
