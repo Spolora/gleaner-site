@@ -297,6 +297,67 @@ a:hover {
   line-height: 1.45;
 }
 
+.map-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin: 0.35rem 0 0.85rem;
+  padding: 0 0.2rem;
+}
+
+.map-modes {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 980px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.map-mode {
+  border: 0;
+  border-radius: 980px;
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 560;
+  color: var(--soft);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.map-mode:hover {
+  color: var(--ink);
+}
+
+.map-mode.is-active {
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.map-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--mute);
+  font-size: 0.78rem;
+}
+
+.map-legend-bar {
+  width: 88px;
+  height: 8px;
+  border-radius: 980px;
+  background: linear-gradient(
+    90deg,
+    #ffedd5 0%,
+    #fdba74 35%,
+    #2dd4bf 70%,
+    #134e4a 100%
+  );
+}
+
 .world-globe {
   position: relative;
   width: 100%;
@@ -306,6 +367,11 @@ a:hover {
   background:
     radial-gradient(circle at 50% 45%, #1a2330 0%, #0f141c 60%, #0b0e13 100%);
   cursor: grab;
+}
+
+.world-globe[data-mode='borders'] {
+  background:
+    radial-gradient(circle at 50% 42%, #d9e6f2 0%, #eef3f7 55%, #f5f5f7 100%);
 }
 
 .globe-loading {

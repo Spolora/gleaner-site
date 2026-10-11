@@ -1,6 +1,6 @@
 /**
  * Interactive Earth with anonymous country-level presence dots.
- * Drag to rotate, scroll to zoom. Country code + counts only.
+ * Modes: satellite texture | political borders. Flat circles; color = activity.
  */
 
 /** Approximate centroids [lat, lon] for display only. */
@@ -60,10 +60,38 @@ const CENTROIDS = {
   NZ: [-40.9, 174.9],
 };
 
-const EARTH_IMG =
+const EARTH_SAT =
   'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-blue-marble.jpg';
-const TOPO_IMG =
+const EARTH_TOPO =
   'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-topology.png';
+/** Soft daylight texture under political borders */
+const EARTH_DAY =
+  'https://cdn.jsdelivr.net/npm/three-globe@2.31.1/example/img/earth-day.jpg';
+const WORLD_TOPO =
+  'https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json';
+
+const MODE_KEY = 'gleaner.globeMode';
+
+/** Color scale: few → many (light amber → deep teal). */
+function colorForHits(hits, maxHits) {
+  const t = Math.min(1, Math.max(0, hits / Math.max(maxHits, 1)));
+  const stops = [
+    [255, 237, 213], // #ffedd5
+    [253, 186, 116], // #fdba74
+    [45, 212, 191], // #2dd4bf
+    [15, 118, 110], // #0f766e
+    [19, 78, 74], // #134e4a
+  ];
+  const scaled = t * (stops.length - 1);
+  const i = Math.floor(scaled);
+  const f = scaled - i;
+  const a = stops[i];
+  const b = stops[Math.min(i + 1, stops.length - 1)];
+  const r = Math.round(a[0] + (b[0] - a[0]) * f);
+  const g = Math.round(a[1] + (b[1] - a[1]) * f);
+  const bl = Math.round(a[2] + (b[2] - a[2]) * f);
+  return `rgb(${r},${g},${bl})`;
+}
 
 function toPoints(rows) {
   const usable = rows.filter((r) => CENTROIDS[r.country_code]);
@@ -72,17 +100,17 @@ function toPoints(rows) {
   const points = usable.map((row) => {
     total += row.hits;
     const [lat, lng] = CENTROIDS[row.country_code];
-    const t = Math.sqrt(row.hits / maxHits);
     return {
       lat,
       lng,
-      size: 0.35 + t * 0.85,
-      altitude: 0.02 + t * 0.04,
+      size: 0.55,
+      altitude: 0.004,
       country: row.country_code,
       hits: row.hits,
+      color: colorForHits(row.hits, maxHits),
     };
   });
-  return { points, countries: usable.length, hits: total };
+  return { points, countries: usable.length, hits: total, maxHits };
 }
 
 async function fetchPresence(days = 14) {
@@ -104,10 +132,66 @@ async function fetchPresence(days = 14) {
   return Array.isArray(data) ? data : [];
 }
 
+async function loadCountryPolygons() {
+  if (typeof topojson === 'undefined') return [];
+  const res = await fetch(WORLD_TOPO);
+  if (!res.ok) throw new Error(`world-atlas ${res.status}`);
+  const world = await res.json();
+  const geo = topojson.feature(world, world.objects.countries);
+  return geo.features || [];
+}
+
 function sizeGlobe(el) {
   const width = el.clientWidth || 640;
-  const height = Math.max(360, Math.min(560, Math.round(width * 0.62)));
+  const height = Math.max(380, Math.min(560, Math.round(width * 0.62)));
   return { width, height };
+}
+
+function getMode() {
+  const saved = localStorage.getItem(MODE_KEY);
+  return saved === 'borders' ? 'borders' : 'satellite';
+}
+
+function setModeButtons(mode) {
+  document.querySelectorAll('[data-globe-mode]').forEach((btn) => {
+    const active = btn.getAttribute('data-globe-mode') === mode;
+    btn.classList.toggle('is-active', active);
+    btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
+}
+
+function applyMode(globe, mode, polygons) {
+  if (mode === 'borders') {
+    elShellMode('borders');
+    globe
+      .globeImageUrl(EARTH_DAY)
+      .bumpImageUrl(null)
+      .showAtmosphere(true)
+      .atmosphereColor('#9ec5de')
+      .atmosphereAltitude(0.1)
+      .polygonsData(polygons)
+      .polygonCapColor(() => 'rgba(248, 250, 252, 0.55)')
+      .polygonSideColor(() => 'rgba(0,0,0,0)')
+      .polygonStrokeColor(() => 'rgba(60, 70, 80, 0.55)')
+      .polygonAltitude(0.003);
+  } else {
+    elShellMode('satellite');
+    globe
+      .globeImageUrl(EARTH_SAT)
+      .bumpImageUrl(EARTH_TOPO)
+      .showAtmosphere(true)
+      .atmosphereColor('#7ec8c3')
+      .atmosphereAltitude(0.14)
+      .polygonsData([])
+      .polygonAltitude(0.01);
+  }
+}
+
+function elShellMode(mode) {
+  const shell = document.querySelector('.map-shell');
+  const globeEl = document.getElementById('world-globe');
+  if (shell) shell.dataset.mode = mode;
+  if (globeEl) globeEl.dataset.mode = mode;
 }
 
 async function bootMap() {
@@ -134,8 +218,17 @@ async function bootMap() {
     console.warn('[gleaner-site] presence fetch failed', err);
   }
 
+  let polygons = [];
+  try {
+    polygons = await loadCountryPolygons();
+  } catch (err) {
+    console.warn('[gleaner-site] country borders failed', err);
+  }
+
   const { points, countries, hits } = toPoints(rows);
   const { width, height } = sizeGlobe(el);
+  let mode = getMode();
+  setModeButtons(mode);
 
   if (stat) {
     if (!countries) {
@@ -146,38 +239,32 @@ async function bootMap() {
     }
   }
 
+  const legend = document.getElementById('map-legend');
+  if (legend) legend.hidden = countries === 0;
+
   const globe = Globe()(el)
     .width(width)
     .height(height)
     .backgroundColor('rgba(0,0,0,0)')
-    .showAtmosphere(true)
-    .atmosphereColor('#7ec8c3')
-    .atmosphereAltitude(0.14)
-    .globeImageUrl(EARTH_IMG)
-    .bumpImageUrl(TOPO_IMG)
     .pointsData(points)
     .pointLat('lat')
     .pointLng('lng')
     .pointAltitude('altitude')
     .pointRadius('size')
-    .pointColor(() => '#2dd4bf')
+    .pointColor('color')
     .pointLabel(
       (d) =>
         `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${d.hits} anonymous signals</span></div>`,
     )
-    .ringsData(points)
-    .ringLat('lat')
-    .ringLng('lng')
-    .ringAltitude('altitude')
-    .ringColor(() => (t) => `rgba(45, 212, 191, ${1 - t})`)
-    .ringMaxRadius((d) => 1.2 + d.size)
-    .ringPropagationSpeed(1.4)
-    .ringRepeatPeriod(1400);
+    .polygonsTransitionDuration(400)
+    .pointsMerge(false);
+
+  applyMode(globe, mode, polygons);
 
   const controls = globe.controls();
   controls.enableZoom = true;
   controls.autoRotate = true;
-  controls.autoRotateSpeed = 0.45;
+  controls.autoRotateSpeed = 0.4;
   controls.minDistance = 140;
   controls.maxDistance = 420;
   globe.pointOfView({ lat: 20, lng: 40, altitude: 2.1 }, 0);
@@ -189,6 +276,15 @@ async function bootMap() {
     },
     { once: true },
   );
+
+  document.querySelectorAll('[data-globe-mode]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      mode = btn.getAttribute('data-globe-mode') === 'borders' ? 'borders' : 'satellite';
+      localStorage.setItem(MODE_KEY, mode);
+      setModeButtons(mode);
+      applyMode(globe, mode, polygons);
+    });
+  });
 
   window.addEventListener('resize', () => {
     const next = sizeGlobe(el);
