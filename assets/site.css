@@ -297,40 +297,31 @@ a:hover {
   line-height: 1.45;
 }
 
-#world-map {
+.world-globe {
   width: 100%;
-  height: auto;
+  min-height: 360px;
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 45%, #dfe7ef 0%, #eef1f5 55%, #f5f5f7 100%);
+  cursor: grab;
+}
+
+.world-globe:active {
+  cursor: grabbing;
+}
+
+.world-globe canvas {
   display: block;
+  width: 100% !important;
 }
 
-.map-dot {
-  fill: var(--teal);
-  opacity: 0.55;
-  transform-origin: center;
-  transform-box: fill-box;
-  animation: pulse 2.8s ease-in-out infinite;
-}
-
-.map-dot:nth-child(odd) {
-  animation-delay: 0.4s;
-}
-
-.map-earth {
-  fill: #eef0f3;
-  stroke: rgba(0, 0, 0, 0.04);
-  stroke-width: 1;
-}
-
-.map-grid {
-  stroke: rgba(0, 0, 0, 0.04);
-  stroke-width: 1;
-  fill: none;
-}
-
-.map-empty {
-  fill: var(--mute);
-  font-size: 14px;
-  font-family: var(--sans);
+.map-hint {
+  margin: 0.65rem 0 0;
+  text-align: center;
+  color: var(--mute);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
 }
 
 .footer {

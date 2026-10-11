@@ -64,8 +64,9 @@
       <div class="section-inner">
         <h2>One planet. Many readers.</h2>
         <p class="lead">
-          Soft dots mark countries where someone used Gleaner recently — a reminder
-          that we share the same Earth, learning in parallel.
+          Soft lights mark countries where someone used Gleaner recently — a reminder
+          that we share the same Earth, learning in parallel. Drag to spin, scroll to
+          zoom.
         </p>
 
         <div class="map-shell">
@@ -77,12 +78,13 @@
               (you can turn this off in Settings).
             </p>
           </div>
-          <svg
-            id="world-map"
-            viewBox="0 0 1000 500"
+          <div
+            id="world-globe"
+            class="world-globe"
             role="img"
-            aria-label="Anonymous country-level activity map"
-          ></svg>
+            aria-label="Interactive Earth with anonymous country-level activity"
+          ></div>
+          <p class="map-hint">Drag to spin · Scroll to zoom</p>
         </div>
       </div>
     </section>
@@ -99,6 +101,7 @@
     </footer>
 
     <script src="./config.js"></script>
+    <script src="https://unpkg.com/globe.gl@2.33.1/dist/globe.gl.min.js"></script>
     <script src="./assets/map.js"></script>
   </body>
 </html>
