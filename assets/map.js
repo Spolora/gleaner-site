@@ -72,15 +72,16 @@ const WORLD_TOPO =
 
 const MODE_KEY = 'gleaner.globeMode';
 
-/** Color scale: few → many (light amber → deep teal). */
+/** Heatmap: few → many (light blue → deep / black-red). */
 function colorForHits(hits, maxHits) {
   const t = Math.min(1, Math.max(0, hits / Math.max(maxHits, 1)));
   const stops = [
-    [255, 237, 213], // #ffedd5
-    [253, 186, 116], // #fdba74
-    [45, 212, 191], // #2dd4bf
-    [15, 118, 110], // #0f766e
-    [19, 78, 74], // #134e4a
+    [186, 230, 253], // #bae6fd light blue
+    [56, 189, 248], // #38bdf8
+    [250, 204, 21], // #facc15
+    [249, 115, 22], // #f97316
+    [220, 38, 38], // #dc2626
+    [69, 10, 10], // #450a0a black-red
   ];
   const scaled = t * (stops.length - 1);
   const i = Math.floor(scaled);
@@ -103,7 +104,7 @@ function toPoints(rows) {
     return {
       lat,
       lng,
-      size: 0.55,
+      size: 0.85,
       altitude: 0.004,
       country: row.country_code,
       hits: row.hits,
@@ -149,7 +150,8 @@ function sizeGlobe(el) {
 
 function getMode() {
   const saved = localStorage.getItem(MODE_KEY);
-  return saved === 'borders' ? 'borders' : 'satellite';
+  if (saved === 'satellite' || saved === 'borders') return saved;
+  return 'borders';
 }
 
 function setModeButtons(mode) {

@@ -317,9 +317,9 @@ a:hover {
 .map-mode {
   border: 0;
   border-radius: 980px;
-  padding: 0.45rem 0.9rem;
+  padding: 0.28rem 0.65rem;
   font: inherit;
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 560;
   color: var(--soft);
   background: transparent;
@@ -351,10 +351,12 @@ a:hover {
   border-radius: 980px;
   background: linear-gradient(
     90deg,
-    #ffedd5 0%,
-    #fdba74 35%,
-    #2dd4bf 70%,
-    #134e4a 100%
+    #bae6fd 0%,
+    #38bdf8 20%,
+    #facc15 45%,
+    #f97316 70%,
+    #dc2626 88%,
+    #450a0a 100%
   );
 }
 
