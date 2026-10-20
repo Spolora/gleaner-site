@@ -82,7 +82,7 @@
         <h1>Privacy Policy · 隐私政策</h1>
         <p class="meta">
           <strong>Gleaner</strong> by <strong>Spolora</strong><br />
-          Last updated: October 12, 2026 · 更新日期：2026 年 10 月 12 日
+          Last updated: October 21, 2026 · 更新日期：2026 年 10 月 21 日
         </p>
         <p>
           This policy explains what Gleaner collects, why, and how it is stored.<br />
@@ -119,11 +119,15 @@
           <li>optional notes you write</li>
           <li>review metadata (for example created time)</li>
           <li>cached pronunciation audio for saved words</li>
+          <li>a bundled offline English lexicon (loaded on your device; no account required)</li>
           <li>
-            downloaded native-gloss dictionary packs (Chinese / Japanese / Korean), when your
-            browser language needs them
+            downloaded native-gloss dictionary packs (Chinese / Japanese / Korean and other
+            supported languages), when needed
           </li>
           <li>optional local vocab-level test results</li>
+          <li>
+            short translation cache entries (so repeated glosses do not need another network call)
+          </li>
         </ul>
         <p>
           This local data stays in the browser until you clear it or uninstall Gleaner.
@@ -133,6 +137,11 @@
           Optional Google sign-in syncs your cards and latest vocab-level summary to our cloud
           database (Supabase), tied to your account (email / user id from Google). You can keep
           using Gleaner without signing in; then that data stays local only.
+        </p>
+        <p>
+          Signed-in users may also use a limited daily machine-translation quota (Google Gemini,
+          via our Supabase Edge Function). Only the <strong>selected word or phrase</strong> (and
+          the target language / intent) is sent for that request—not your browsing history.
         </p>
         <p>
           <strong>Anonymous community map (optional)</strong><br />
@@ -148,7 +157,8 @@
 
         <h3>Data sent over the network</h3>
         <p>
-          To look up meanings and related content, Gleaner may send the
+          Common English lookups are served from the <strong>offline lexicon on your device</strong>.
+          When a word is missing, or for etymology / translation / images, Gleaner may send the
           <strong>selected word or phrase</strong> (and similar short queries) to third-party
           services:
         </p>
@@ -161,16 +171,26 @@
           </thead>
           <tbody>
             <tr>
-              <td>English definitions / etymology</td>
+              <td>Offline English definitions (on device)</td>
+              <td>Bundled lexicon built from English Wiktionary (Kaikki / Wiktextract)</td>
+            </tr>
+            <tr>
+              <td>Online English definitions / etymology (fallback)</td>
               <td>Wiktionary, Datamuse</td>
             </tr>
             <tr>
-              <td>Native word gloss (on device)</td>
-              <td>CC-CEDICT (MDBG), JMdict (GitHub), Kengdic (GitHub)</td>
+              <td>Proper-name / place summaries (fallback)</td>
+              <td>Wikipedia</td>
             </tr>
             <tr>
-              <td>Phrase / sentence translation; pronunciation audio</td>
-              <td>Youdao</td>
+              <td>Native word gloss (on device)</td>
+              <td>CC-CEDICT (MDBG), JMdict (GitHub), Kengdic (GitHub), Wikdict TEI packs, etc.</td>
+            </tr>
+            <tr>
+              <td>Phrase / sentence / miss translation; pronunciation audio</td>
+              <td>
+                Youdao; for signed-in users, Google Gemini via our Supabase function (daily limit)
+              </td>
             </tr>
             <tr>
               <td>Optional mnemonic images</td>
@@ -249,14 +269,19 @@
           <li>你填写的笔记</li>
           <li>复习相关时间信息</li>
           <li>已收藏单词的发音缓存</li>
-          <li>按浏览器语言下载的母语词典包（中文 / 日文 / 韩文，如需要）</li>
+          <li>随扩展附带的离线英语词库（在本机加载，无需登录）</li>
+          <li>按需下载的母语词典包（中文 / 日文 / 韩文及其他已支持语言）</li>
           <li>可选的词汇水平测试结果（本机）</li>
+          <li>简短的翻译缓存（避免重复请求）</li>
         </ul>
         <p>在你清空扩展数据或卸载之前，这些内容留在本机。</p>
         <p>
           <strong>如果你选择登录</strong><br />
           可选的 Google 登录会把卡片与最近一次词汇水平摘要同步到我们的云端数据库（Supabase），并与你的账号（来自 Google
           的邮箱 / 用户 ID）关联。不登录也可以正常使用，这些内容只留在本机。
+        </p>
+        <p>
+          登录用户还可使用有限的每日机翻额度（Google Gemini，经由我们的 Supabase Edge Function）。此类请求仅发送<strong>你划选的词或短语</strong>（以及目标语言 / 用途），不会上传浏览历史。
         </p>
         <p>
           <strong>匿名社区地图（可选）</strong><br />
@@ -267,7 +292,7 @@
 
         <h3>会发到网络上的内容</h3>
         <p>
-          为了查词和相关功能，扩展可能把<strong>你划选的词或短语</strong>（及类似短查询）发送给第三方服务：
+          常见英文释义优先使用<strong>本机离线词库</strong>。词库未收录，或需要词源 / 翻译 / 配图时，扩展可能把<strong>你划选的词或短语</strong>（及类似短查询）发送给第三方服务：
         </p>
         <table>
           <thead>
@@ -278,16 +303,24 @@
           </thead>
           <tbody>
             <tr>
-              <td>英文释义 / 词源</td>
+              <td>离线英文释义（本机）</td>
+              <td>随包装载的英语维基词典精简词库（Kaikki / Wiktextract）</td>
+            </tr>
+            <tr>
+              <td>在线英文释义 / 词源（兜底）</td>
               <td>Wiktionary、Datamuse</td>
             </tr>
             <tr>
-              <td>单词母语释义（本机）</td>
-              <td>CC-CEDICT（MDBG）、JMdict（GitHub）、Kengdic（GitHub）</td>
+              <td>人名 / 地名摘要（兜底）</td>
+              <td>维基百科</td>
             </tr>
             <tr>
-              <td>短语 / 句子翻译；发音音频</td>
-              <td>有道</td>
+              <td>单词母语释义（本机）</td>
+              <td>CC-CEDICT（MDBG）、JMdict（GitHub）、Kengdic（GitHub）、Wikdict 等</td>
+            </tr>
+            <tr>
+              <td>短语 / 句子 / 未收录词翻译；发音音频</td>
+              <td>有道；登录用户可通过我们的后端使用 Google Gemini（有每日上限）</td>
             </tr>
             <tr>
               <td>可选助记图片</td>
