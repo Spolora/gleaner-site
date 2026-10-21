@@ -477,15 +477,24 @@ a:hover {
 
 /* —— Privacy policy page —— */
 .policy-hero {
-  padding: clamp(1.5rem, 4vw, 2.4rem) 1.35rem 1.5rem;
+  padding: clamp(1.5rem, 4vw, 2.4rem) 0 1.5rem;
   background:
     radial-gradient(900px 420px at 85% 0%, rgba(13, 138, 128, 0.14), transparent 55%),
     linear-gradient(180deg, #eef5f3 0%, var(--bg) 100%);
 }
 
-.policy-hero-inner {
-  max-width: 760px;
+.policy-hero-inner,
+.policy {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 900px;
   margin: 0 auto;
+  padding-left: 1.35rem;
+  padding-right: 1.35rem;
+  text-align: left;
+}
+
+.policy-hero-inner {
   animation: rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
@@ -509,14 +518,15 @@ a:hover {
 }
 
 .policy-lead {
-  margin: 0.7rem 0 0;
-  max-width: 36rem;
+  margin: 0.55rem 0 0;
+  max-width: none;
   color: var(--soft);
   font-size: 1.02rem;
+  line-height: 1.45;
 }
 
 .policy-meta {
-  margin: 0.85rem 0 0;
+  margin: 0.55rem 0 0;
   color: var(--mute);
   font-size: 0.86rem;
 }
@@ -524,8 +534,8 @@ a:hover {
 .policy-summary {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin: 1.15rem 0 0;
+  gap: 0.4rem;
+  margin: 0.85rem 0 0;
   padding: 0;
   list-style: none;
 }
@@ -543,7 +553,7 @@ a:hover {
 .policy-lang {
   display: inline-flex;
   gap: 0.25rem;
-  margin-top: 1.15rem;
+  margin-top: 0.9rem;
   padding: 0.2rem;
   border-radius: 980px;
   background: rgba(255, 255, 255, 0.7);
@@ -569,9 +579,8 @@ a:hover {
 }
 
 .policy {
-  max-width: 760px;
-  margin: 0 auto;
-  padding: 0.5rem 1.35rem 4rem;
+  padding-top: 0.5rem;
+  padding-bottom: 4rem;
 }
 
 .policy-panel {
@@ -592,8 +601,8 @@ a:hover {
 }
 
 .policy h3 {
-  margin: 1.55rem 0 0.45rem;
-  padding-top: 0.85rem;
+  margin: 1.1rem 0 0.3rem;
+  padding-top: 0.6rem;
   border-top: 1px solid var(--line);
   font-size: 1.02rem;
   letter-spacing: -0.02em;
@@ -601,18 +610,19 @@ a:hover {
 }
 
 .policy h3:first-of-type {
-  margin-top: 1rem;
+  margin-top: 0.75rem;
 }
 
 .policy p,
 .policy li {
-  margin: 0 0 0.65rem;
+  margin: 0 0 0.4rem;
   color: var(--ink);
-  font-size: 0.95rem;
+  font-size: 0.88rem;
+  line-height: 1.5;
 }
 
 .policy ul {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
   padding-left: 1.2rem;
 }
 
@@ -620,8 +630,8 @@ a:hover {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
-  margin: 0.85rem 0 1rem;
-  font-size: 0.9rem;
+  margin: 0.55rem 0 0.7rem;
+  font-size: 0.84rem;
   border: 1px solid var(--line);
   border-radius: 12px;
   overflow: hidden;
@@ -630,10 +640,11 @@ a:hover {
 
 .policy th,
 .policy td {
-  padding: 0.7rem 0.8rem;
+  padding: 0.55rem 0.75rem;
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid var(--line);
+  line-height: 1.45;
 }
 
 .policy tr:last-child th,
