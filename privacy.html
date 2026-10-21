@@ -8,96 +8,51 @@
       name="description"
       content="Privacy Policy for the Gleaner browser extension by Spolora. Gleaner 浏览器扩展隐私政策。"
     />
-    <link rel="stylesheet" href="assets/site.css" />
-    <style>
-      .policy {
-        max-width: 760px;
-        margin: 0 auto;
-        padding: 2.5rem 1.5rem 4rem;
-      }
-      .policy header {
-        margin-bottom: 2rem;
-      }
-      .policy h1 {
-        margin: 0;
-        font-family: var(--serif);
-        font-size: clamp(1.8rem, 4vw, 2.4rem);
-        letter-spacing: -0.04em;
-      }
-      .policy .meta {
-        color: var(--soft);
-        font-size: 0.95rem;
-      }
-      .policy section {
-        margin-bottom: 2.5rem;
-      }
-      .policy h2 {
-        margin: 0 0 1rem;
-        font-size: 1.25rem;
-        color: var(--teal);
-      }
-      .policy h3 {
-        margin: 1.4rem 0 0.5rem;
-        font-size: 1.05rem;
-      }
-      .policy p,
-      .policy li {
-        margin: 0 0 0.65rem;
-        color: var(--ink);
-      }
-      .policy ul {
-        margin: 0 0 0.75rem;
-        padding-left: 1.2rem;
-      }
-      .policy table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 0.75rem 0 1rem;
-        font-size: 0.95rem;
-      }
-      .policy th,
-      .policy td {
-        border: 1px solid var(--line);
-        padding: 0.65rem 0.75rem;
-        text-align: left;
-        vertical-align: top;
-      }
-      .policy th {
-        background: #f5f5f7;
-      }
-    </style>
+    <link rel="stylesheet" href="assets/site.css?v=13" />
   </head>
   <body>
     <nav class="nav" aria-label="Primary">
       <a class="nav-brand" href="./">Gleaner</a>
       <div class="nav-links">
         <a href="./#community">Community</a>
-        <a href="./privacy.html">Privacy</a>
+        <a href="./#product">Product</a>
+        <a href="./privacy.html" aria-current="page">Privacy</a>
         <a href="https://github.com/Spolora/gleaner-site/issues">Support</a>
       </div>
     </nav>
 
-    <main class="policy">
-      <header>
-        <h1>Privacy Policy · 隐私政策</h1>
-        <p class="meta">
-          <strong>Gleaner</strong> by <strong>Spolora</strong><br />
+    <header class="policy-hero">
+      <div class="policy-hero-inner">
+        <p class="policy-kicker">Spolora · Gleaner</p>
+        <h1>Privacy, plainly</h1>
+        <p class="policy-lead">
+          Cards stay on your device by default. Sign-in is optional. When a lookup
+          needs the network, we only send the text you selected — not your browsing
+          history.
+        </p>
+        <p class="policy-meta">
           Last updated: October 21, 2026 · 更新日期：2026 年 10 月 21 日
         </p>
-        <p>
-          This policy explains what Gleaner collects, why, and how it is stored.<br />
-          本政策说明 Gleaner 收集哪些信息、用途，以及如何保存。
-        </p>
-        <p>
-          Contact / 联系：
-          <a href="https://github.com/Spolora/gleaner-site/issues"
-            >github.com/Spolora/gleaner-site/issues</a
-          >
-        </p>
-      </header>
+        <ul class="policy-summary">
+          <li>Local-first by default</li>
+          <li>Offline English lexicon on device</li>
+          <li>No sale of your data</li>
+          <li>可选登录同步</li>
+        </ul>
+        <div class="policy-lang" role="tablist" aria-label="Language">
+          <button type="button" data-policy-lang="en" class="is-active" role="tab" aria-selected="true">
+            English
+          </button>
+          <button type="button" data-policy-lang="zh" role="tab" aria-selected="false">
+            中文
+          </button>
+        </div>
+      </div>
+    </header>
 
-      <section id="en" lang="en">
-        <h2>English</h2>
+    <main class="policy">
+      <section id="en" class="policy-panel" lang="en" data-policy-panel="en" role="tabpanel">
+        <h2>Privacy Policy</h2>
 
         <h3>Who we are</h3>
         <p>
@@ -149,7 +104,8 @@
           once per day: a <strong>country code only</strong> (derived from your timezone, not GPS
           and not your IP). We do <strong>not</strong> store a user id with that ping. Counts are
           aggregated by country and day. You can turn this off in Settings → Community map. The map
-          never shows cities or individuals.
+          never shows cities or individuals. The website globe may open facing your region using the
+          same timezone guess — still not GPS.
         </p>
         <p>
           <strong>We do not sell your data.</strong> We do not use your cards for advertising.
@@ -249,8 +205,8 @@
         </p>
       </section>
 
-      <section id="zh" lang="zh-CN">
-        <h2>中文</h2>
+      <section id="zh" class="policy-panel" lang="zh-CN" data-policy-panel="zh" role="tabpanel" hidden>
+        <h2>隐私政策</h2>
 
         <h3>我们是谁</h3>
         <p>
@@ -286,7 +242,8 @@
         <p>
           <strong>匿名社区地图（可选）</strong><br />
           为在官网展示「地球上的学习者」地图，扩展最多每天发送一次：仅<strong>国家代码</strong>（由时区粗略推断，不是
-          GPS，也不使用你的 IP）。我们<strong>不会</strong>把用户 ID 与该心跳一起存储；按国家与日期聚合计数。可在设置中关闭「社区地图」。地图不会显示城市或个人。
+          GPS，也不使用你的 IP）。我们<strong>不会</strong>把用户 ID 与该心跳一起存储；按国家与日期聚合计数。可在设置中关闭「社区地图」。地图不会显示城市或个人。官网地球也可能按同一时区猜测转到你所在地区——同样不是
+          GPS。
         </p>
         <p><strong>我们不出售你的数据，也不把卡片用于广告。</strong></p>
 
@@ -370,9 +327,48 @@
 
     <footer class="footer">
       <div class="footer-inner">
-        <span>Spolora · Gleaner · Privacy</span>
-        <a href="./">Back to home</a>
+        <span>Spolora · Gleaner</span>
+        <span>
+          <a href="./">Home</a>
+          ·
+          <a href="https://github.com/Spolora/gleaner-site/issues">Contact</a>
+        </span>
       </div>
     </footer>
+
+    <script>
+      (function () {
+        var buttons = document.querySelectorAll('[data-policy-lang]');
+        var panels = document.querySelectorAll('[data-policy-panel]');
+        function show(lang) {
+          buttons.forEach(function (btn) {
+            var on = btn.getAttribute('data-policy-lang') === lang;
+            btn.classList.toggle('is-active', on);
+            btn.setAttribute('aria-selected', on ? 'true' : 'false');
+          });
+          panels.forEach(function (panel) {
+            var on = panel.getAttribute('data-policy-panel') === lang;
+            panel.hidden = !on;
+          });
+          document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+          try {
+            localStorage.setItem('gleaner.policyLang', lang);
+          } catch (e) {}
+        }
+        buttons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            show(btn.getAttribute('data-policy-lang'));
+          });
+        });
+        var saved = '';
+        try {
+          saved = localStorage.getItem('gleaner.policyLang') || '';
+        } catch (e) {}
+        var preferZh =
+          saved === 'zh' ||
+          (!saved && /^zh\b/i.test(navigator.language || ''));
+        show(preferZh ? 'zh' : 'en');
+      })();
+    </script>
   </body>
 </html>
