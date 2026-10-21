@@ -74,6 +74,139 @@ const WORLD_TOPO =
 const MODE_KEY = 'gleaner.globeMode';
 
 /**
+ * IANA timezone → approximate viewer lat/lng (city/region, not GPS).
+ * Same privacy idea as the extension presence ping: timezone only.
+ */
+const TZ_VIEW = {
+  'America/New_York': [40.7, -74.0],
+  'America/Chicago': [41.9, -87.6],
+  'America/Denver': [39.7, -105.0],
+  'America/Los_Angeles': [34.1, -118.2],
+  'America/Phoenix': [33.4, -112.1],
+  'America/Anchorage': [61.2, -149.9],
+  'Pacific/Honolulu': [21.3, -157.9],
+  'America/Toronto': [43.7, -79.4],
+  'America/Vancouver': [49.3, -123.1],
+  'America/Mexico_City': [19.4, -99.1],
+  'America/Sao_Paulo': [-23.6, -46.6],
+  'America/Argentina/Buenos_Aires': [-34.6, -58.4],
+  'America/Santiago': [-33.4, -70.7],
+  'America/Bogota': [4.7, -74.1],
+  'America/Lima': [-12.0, -77.0],
+  'Europe/London': [51.5, -0.1],
+  'Europe/Dublin': [53.3, -6.3],
+  'Europe/Paris': [48.9, 2.3],
+  'Europe/Berlin': [52.5, 13.4],
+  'Europe/Amsterdam': [52.4, 4.9],
+  'Europe/Brussels': [50.8, 4.4],
+  'Europe/Madrid': [40.4, -3.7],
+  'Europe/Lisbon': [38.7, -9.1],
+  'Europe/Rome': [41.9, 12.5],
+  'Europe/Zurich': [47.4, 8.5],
+  'Europe/Vienna': [48.2, 16.4],
+  'Europe/Stockholm': [59.3, 18.1],
+  'Europe/Oslo': [59.9, 10.8],
+  'Europe/Copenhagen': [55.7, 12.6],
+  'Europe/Helsinki': [60.2, 24.9],
+  'Europe/Warsaw': [52.2, 21.0],
+  'Europe/Prague': [50.1, 14.4],
+  'Europe/Bucharest': [44.4, 26.1],
+  'Europe/Kyiv': [50.5, 30.5],
+  'Europe/Istanbul': [41.0, 29.0],
+  'Europe/Moscow': [55.8, 37.6],
+  'Africa/Cairo': [30.0, 31.2],
+  'Africa/Johannesburg': [-26.2, 28.0],
+  'Africa/Lagos': [6.5, 3.4],
+  'Africa/Nairobi': [-1.3, 36.8],
+  'Asia/Dubai': [25.2, 55.3],
+  'Asia/Riyadh': [24.7, 46.7],
+  'Asia/Jerusalem': [31.8, 35.2],
+  'Asia/Kolkata': [22.6, 88.4],
+  'Asia/Karachi': [24.9, 67.0],
+  'Asia/Dhaka': [23.8, 90.4],
+  'Asia/Colombo': [6.9, 79.9],
+  'Asia/Shanghai': [31.2, 121.5],
+  'Asia/Beijing': [39.9, 116.4],
+  'Asia/Chongqing': [29.6, 106.5],
+  'Asia/Urumqi': [43.8, 87.6],
+  'Asia/Hong_Kong': [22.3, 114.2],
+  'Asia/Taipei': [25.0, 121.5],
+  'Asia/Tokyo': [35.7, 139.7],
+  'Asia/Seoul': [37.6, 127.0],
+  'Asia/Ho_Chi_Minh': [10.8, 106.7],
+  'Asia/Bangkok': [13.8, 100.5],
+  'Asia/Kuala_Lumpur': [3.1, 101.7],
+  'Asia/Singapore': [1.35, 103.8],
+  'Asia/Jakarta': [-6.2, 106.8],
+  'Asia/Manila': [14.6, 121.0],
+  'Australia/Sydney': [-33.9, 151.2],
+  'Australia/Melbourne': [-37.8, 145.0],
+  'Australia/Perth': [-31.95, 115.9],
+  'Pacific/Auckland': [-36.8, 174.8],
+};
+
+/** Fallback when timezone is unknown: browser language region → country centroid. */
+const LANG_COUNTRY = {
+  zh: 'CN',
+  'zh-CN': 'CN',
+  'zh-Hans': 'CN',
+  'zh-TW': 'TW',
+  'zh-Hant': 'TW',
+  ja: 'JP',
+  ko: 'KR',
+  en: 'US',
+  'en-GB': 'GB',
+  'en-AU': 'AU',
+  'en-CA': 'CA',
+  'en-IN': 'IN',
+  fr: 'FR',
+  de: 'DE',
+  es: 'ES',
+  pt: 'BR',
+  'pt-BR': 'BR',
+  'pt-PT': 'PT',
+  ru: 'RU',
+  ar: 'SA',
+  hi: 'IN',
+  th: 'TH',
+  vi: 'VN',
+  id: 'ID',
+  ms: 'MY',
+  nl: 'NL',
+  pl: 'PL',
+  tr: 'TR',
+  it: 'IT',
+};
+
+/**
+ * Guess a friendly initial camera target from timezone (preferred) or language.
+ * No GPS, no IP geolocation — stays country/city-from-timezone only.
+ */
+function guessViewerView() {
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+  if (TZ_VIEW[tz]) {
+    const [lat, lng] = TZ_VIEW[tz];
+    return { lat, lng, altitude: 2.1, source: 'timezone', label: tz };
+  }
+
+  const langs = [...(navigator.languages || []), navigator.language || ''];
+  for (const raw of langs) {
+    const tag = String(raw || '').trim();
+    if (!tag) continue;
+    const exact = LANG_COUNTRY[tag] || LANG_COUNTRY[tag.replace('_', '-')];
+    const base = LANG_COUNTRY[tag.split('-')[0]];
+    const code = exact || base;
+    if (code && CENTROIDS[code]) {
+      const [lat, lng] = CENTROIDS[code];
+      return { lat, lng, altitude: 2.1, source: 'language', label: code };
+    }
+  }
+
+  // Previous default faced East Africa / Middle East; use a mild Pacific-neutral fallback.
+  return { lat: 25, lng: 105, altitude: 2.1, source: 'default', label: 'fallback' };
+}
+
+/**
  * Absolute activity scale (not country-vs-country).
  * 1 signal → light blue; 100_000 → deep red; in between by log proportion.
  */
@@ -300,7 +433,13 @@ async function bootMap() {
   controls.autoRotateSpeed = 0.4;
   controls.minDistance = 140;
   controls.maxDistance = 420;
-  globe.pointOfView({ lat: 20, lng: 40, altitude: 2.1 }, 0);
+
+  // Face the viewer's region first (timezone → city/region), then gentle spin.
+  const view = guessViewerView();
+  globe.pointOfView(
+    { lat: view.lat, lng: view.lng, altitude: view.altitude },
+    900,
+  );
 
   el.addEventListener(
     'pointerdown',
