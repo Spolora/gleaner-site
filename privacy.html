@@ -108,9 +108,12 @@
         </p>
         <p>
           <strong>If you sign in</strong><br />
-          Optional Google sign-in syncs your cards and latest vocab-level summary to our cloud
-          database (Supabase), tied to your account (email / user id from Google). You can keep
-          using Gleaner without signing in; then that data stays local only.
+          Optional sign-in (email one-time code, China mobile SMS one-time code, or Google) syncs
+          your cards and latest vocab-level summary to our cloud database (Supabase), tied to your
+          account id. Email/SMS codes are only used to sign in; China SMS is sent via Aliyun when
+          you request a code. You can keep using Gleaner without signing in; then that data stays
+          local only. Prefer the same sign-in method each time so you do not create two separate
+          accounts.
         </p>
         <p>
           Signed-in users may also use a limited daily machine-translation quota (Google Gemini,
@@ -173,7 +176,9 @@
             </tr>
             <tr>
               <td>Account &amp; sync</td>
-              <td>Google (sign-in), Supabase (cards &amp; vocab level)</td>
+              <td>
+                Email OTP / China SMS OTP (Aliyun) / Google; Supabase (cards &amp; vocab level)
+              </td>
             </tr>
             <tr>
               <td>Anonymous country presence (optional)</td>
@@ -252,8 +257,8 @@
         <p>在你清空扩展数据或卸载之前，这些内容留在本机</p>
         <p>
           <strong>如果你选择登录</strong><br />
-          可选的 Google 登录会把卡片与最近一次词汇水平摘要同步到我们的云端数据库（Supabase），并与你的账号（来自 Google
-          的邮箱 / 用户 ID）关联。不登录也可以正常使用，这些内容只留在本机
+          可选登录（邮箱验证码、中国大陆手机号短信验证码，或 Google）会把卡片与最近一次词汇水平摘要同步到我们的云端数据库（Supabase），并与账号
+          ID 关联。验证码仅用于登录；短信经阿里云发送。不登录也可以正常使用，这些内容只留在本机。请尽量固定同一种登录方式，以免产生两个账号
         </p>
         <p>
           登录用户还可使用有限的每日机翻额度（Google Gemini，经由我们的 Supabase Edge Function）。此类请求仅发送<strong>你划选的词或短语</strong>（以及目标语言 / 用途），不会上传浏览历史
@@ -304,7 +309,7 @@
             </tr>
             <tr>
               <td>账号与同步</td>
-              <td>Google（登录）、Supabase（卡片与词汇水平）</td>
+              <td>邮箱验证码 / 中国大陆短信验证码（阿里云）/ Google；Supabase（卡片与词汇水平）</td>
             </tr>
             <tr>
               <td>匿名国家活跃（可选）</td>
