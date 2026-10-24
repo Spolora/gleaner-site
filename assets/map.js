@@ -207,8 +207,8 @@ function guessViewerView() {
 }
 
 /**
- * Absolute activity scale (not country-vs-country).
- * 1 signal → light blue; 100_000 → deep red; in between by log proportion.
+ * Active-learner scale (avg daily anonymous devices per country, last 14 days).
+ * 1 → light blue; 100_000 → deep red; in between by log proportion.
  */
 const HITS_FOR_MAX_COLOR = 100_000;
 
@@ -256,7 +256,7 @@ function toPoints(rows) {
       ringMax: 2.6 + t * 2.4,
     };
   });
-  return { points, countries: usable.length, hits: total };
+  return { points, countries: usable.length, learners: total };
 }
 
 async function fetchPresence(days = 14) {
@@ -372,7 +372,7 @@ async function bootMap() {
     console.warn('[gleaner-site] country borders failed', err);
   }
 
-  const { points, countries, hits } = toPoints(rows);
+  const { points, countries, learners } = toPoints(rows);
   const { width, height } = sizeGlobe(el);
   let mode = getMode();
   setModeButtons(mode);
@@ -382,7 +382,7 @@ async function bootMap() {
       stat.innerHTML =
         'Waiting for the first sparks <span>· country-level only</span>';
     } else {
-      stat.innerHTML = `${countries} regions · ~${hits} signals <span>· last 14 days</span>`;
+      stat.innerHTML = `${countries} regions · ~${learners} active <span>· daily avg, last 14 days</span>`;
     }
   }
 
@@ -403,7 +403,7 @@ async function bootMap() {
     .pointResolution(48)
     .pointLabel(
       (d) =>
-        `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${d.hits} anonymous signals</span></div>`,
+        `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">~${d.hits} active / day</span></div>`,
     )
     .ringsData(points)
     .ringLat('lat')
