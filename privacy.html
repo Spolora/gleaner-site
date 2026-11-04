@@ -12,64 +12,81 @@
     <link rel="icon" href="icons/32.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="icons/16.png" type="image/png" sizes="16x16" />
     <link rel="apple-touch-icon" href="icons/128.png" sizes="128x128" />
-    <link rel="stylesheet" href="assets/site.css?v=21" />
+    <link rel="stylesheet" href="assets/site.css?v=22" />
     <script>
       (function () {
         try {
-          var saved = localStorage.getItem('gleaner.policyLang') || '';
-          if (saved === 'zh' || saved === 'en') {
-            document.documentElement.setAttribute('data-policy-lang', saved);
-            return;
+          var v = localStorage.getItem('gleaner.siteLang') || '';
+          if (v !== 'auto' && v !== 'en' && v !== 'zh') {
+            var legacy = localStorage.getItem('gleaner.policyLang') || '';
+            v = legacy === 'en' || legacy === 'zh' ? legacy : 'auto';
           }
+          var langs = [];
+          try {
+            langs = Array.prototype.slice.call(navigator.languages || []);
+          } catch (e) {}
+          if (!langs.length && navigator.language) langs = [navigator.language];
+          var zh = langs.some(function (l) {
+            return /^zh\b/i.test(l || '');
+          });
+          var lang = v === 'zh' || v === 'en' ? v : zh ? 'zh' : 'en';
+          document.documentElement.setAttribute('data-site-lang', lang);
+          document.documentElement.setAttribute('data-policy-lang', lang);
+          document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
         } catch (e) {}
-        var langs = [];
-        try {
-          langs = Array.prototype.slice.call(navigator.languages || []);
-        } catch (e2) {}
-        if (!langs.length && navigator.language) langs = [navigator.language];
-        var zh = langs.some(function (l) {
-          return /^zh\b/i.test(l || '');
-        });
-        document.documentElement.setAttribute('data-policy-lang', zh ? 'zh' : 'en');
       })();
     </script>
   </head>
-  <body>
+  <body data-i18n-title="docTitlePrivacy">
     <nav class="nav" aria-label="Primary">
       <a class="nav-brand" href="./">Gleaner</a>
-      <div class="nav-links">
-        <a href="./#community">Community</a>
-        <a href="./#product">Product</a>
-        <a href="./privacy.html" aria-current="page">Privacy</a>
-        <a href="https://github.com/Spolora/gleaner-site/issues">Support</a>
+      <div class="nav-end">
+        <div class="lang-controls" role="group" data-i18n-aria="langGroup">
+          <button
+            type="button"
+            class="lang-follow"
+            data-lang-follow
+            aria-pressed="true"
+          >
+            <span data-i18n="followBrowser">Follow browser</span>
+          </button>
+          <div class="lang-switch" role="group">
+            <button type="button" data-lang-choice="zh" aria-pressed="false">
+              <span data-i18n="langLocal">中文</span>
+            </button>
+            <button type="button" data-lang-choice="en" aria-pressed="false">
+              <span data-i18n="langEn">English</span>
+            </button>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="./#community" data-i18n="navCommunity">Community</a>
+          <a href="./#product" data-i18n="navProduct">Product</a>
+          <a href="./privacy.html" aria-current="page" data-i18n="navPrivacy">Privacy</a>
+          <a href="https://github.com/Spolora/gleaner-site/issues" data-i18n="navSupport"
+            >Support</a
+          >
+        </div>
       </div>
     </nav>
 
     <header class="policy-hero">
       <div class="policy-hero-inner">
-        <p class="policy-kicker">Spolora · Gleaner</p>
-        <p class="policy-lead">
+        <p class="policy-kicker" data-i18n="policyKicker">Spolora · Gleaner</p>
+        <p class="policy-lead" data-i18n="policyLead">
           Cards stay on your device by default. Sign-in is optional. When a lookup
           needs the network, we only send the text you selected — not your browsing
           history.
         </p>
-        <p class="policy-meta">
+        <p class="policy-meta" data-i18n="policyMeta">
           Last updated: October 21, 2026
         </p>
         <ul class="policy-summary">
-          <li>Local-first by default</li>
-          <li>Offline English lexicon on device</li>
-          <li>No sale of your data</li>
-          <li>Optional sign-in sync</li>
+          <li data-i18n="policySum1">Local-first by default</li>
+          <li data-i18n="policySum2">Offline English lexicon on device</li>
+          <li data-i18n="policySum3">No sale of your data</li>
+          <li data-i18n="policySum4">Optional sign-in sync</li>
         </ul>
-        <div class="policy-lang" role="tablist" aria-label="Language">
-          <button type="button" data-policy-lang="en" role="tab" aria-selected="false">
-            English
-          </button>
-          <button type="button" data-policy-lang="zh" role="tab" aria-selected="false">
-            中文
-          </button>
-        </div>
       </div>
     </header>
 
@@ -357,62 +374,15 @@
       <div class="footer-inner">
         <span>Spolora · Gleaner</span>
         <span>
-          <a href="./">Home</a>
+          <a href="./" data-i18n="navHome">Home</a>
           ·
-          <a href="https://github.com/Spolora/gleaner-site/issues">Contact</a>
+          <a href="https://github.com/Spolora/gleaner-site/issues" data-i18n="navContact"
+            >Contact</a
+          >
         </span>
       </div>
     </footer>
 
-    <script>
-      (function () {
-        var buttons = document.querySelectorAll('[data-policy-lang]');
-        var panels = document.querySelectorAll('[data-policy-panel]');
-        function browserPrefersZh() {
-          var langs = [];
-          try {
-            langs = Array.prototype.slice.call(navigator.languages || []);
-          } catch (e) {}
-          if (!langs.length && navigator.language) langs = [navigator.language];
-          return langs.some(function (l) {
-            return /^zh\b/i.test(l || '');
-          });
-        }
-        function show(lang, persist) {
-          buttons.forEach(function (btn) {
-            var on = btn.getAttribute('data-policy-lang') === lang;
-            btn.classList.toggle('is-active', on);
-            btn.setAttribute('aria-selected', on ? 'true' : 'false');
-          });
-          panels.forEach(function (panel) {
-            var on = panel.getAttribute('data-policy-panel') === lang;
-            panel.hidden = !on;
-          });
-          document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-          document.documentElement.setAttribute('data-policy-lang', lang);
-          if (persist) {
-            try {
-              localStorage.setItem('gleaner.policyLang', lang);
-            } catch (e) {}
-          }
-        }
-        buttons.forEach(function (btn) {
-          btn.addEventListener('click', function () {
-            show(btn.getAttribute('data-policy-lang'), true);
-          });
-        });
-        var saved = '';
-        try {
-          saved = localStorage.getItem('gleaner.policyLang') || '';
-        } catch (e) {}
-        var initial =
-          saved === 'zh' || saved === 'en'
-            ? saved
-            : browserPrefersZh()
-              ? 'zh'
-              : 'en';
-        show(initial, false);
-      })();
-    </script>
+    <script src="./assets/i18n.js?v=1"></script>
   </body>
 </html>

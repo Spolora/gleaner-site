@@ -341,18 +341,32 @@ function elShellMode(mode) {
   if (globeEl) globeEl.dataset.mode = mode;
 }
 
+function i18nText(key, vars) {
+  const api = window.GleanerI18n;
+  if (!api) return key;
+  const raw = api.t(key);
+  return vars ? api.format(raw, vars) : raw;
+}
+
+function renderMapStat(stat, countries, learners) {
+  if (!stat) return;
+  if (!countries) {
+    stat.innerHTML = i18nText('mapStatEmpty');
+    return;
+  }
+  stat.innerHTML = i18nText('mapStatReady', { countries, learners });
+}
+
 async function bootMap() {
   const el = document.getElementById('world-globe');
   const stat = document.getElementById('map-stat');
   const loading = document.getElementById('globe-loading');
   if (!el || typeof Globe !== 'function') {
     if (loading) {
-      loading.textContent =
-        'Could not load the 3D Earth (network/CDN). Hard-refresh or try another network.';
+      loading.textContent = i18nText('mapGlobeFail');
     }
     if (stat) {
-      stat.innerHTML =
-        'Unable to load the interactive Earth <span>· try refreshing</span>';
+      stat.innerHTML = i18nText('mapStatFail');
     }
     return;
   }
@@ -377,14 +391,7 @@ async function bootMap() {
   let mode = getMode();
   setModeButtons(mode);
 
-  if (stat) {
-    if (!countries) {
-      stat.innerHTML =
-        'Waiting for the first sparks <span>· country-level only</span>';
-    } else {
-      stat.innerHTML = `${countries} regions · ~${learners} active <span>· daily avg, last 14 days</span>`;
-    }
-  }
+  renderMapStat(stat, countries, learners);
 
   const legend = document.getElementById('map-legend');
   if (legend) legend.hidden = countries === 0;
@@ -401,10 +408,10 @@ async function bootMap() {
     .pointColor('color')
     // Default ~6–12 segments looks hexagonal when zoomed; 48 stays circular.
     .pointResolution(48)
-    .pointLabel(
-      (d) =>
-        `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">~${d.hits} active / day</span></div>`,
-    )
+    .pointLabel((d) => {
+      const hits = i18nText('mapPointHits', { hits: d.hits });
+      return `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${hits}</span></div>`;
+    })
     .ringsData(points)
     .ringLat('lat')
     .ringLng('lng')
@@ -462,6 +469,14 @@ async function bootMap() {
     const next = sizeGlobe(el);
     globe.width(next.width);
     globe.height(next.height);
+  });
+
+  window.addEventListener('gleaner:lang', () => {
+    renderMapStat(stat, countries, learners);
+    globe.pointLabel((d) => {
+      const hits = i18nText('mapPointHits', { hits: d.hits });
+      return `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${hits}</span></div>`;
+    });
   });
 }
 
