@@ -40,6 +40,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Chinese UI reads denser; nudge base size down slightly. */
+html[data-site-lang='zh'] body {
+  font-size: 0.94rem;
+}
+
 a {
   color: var(--teal-deep);
   text-decoration: none;
