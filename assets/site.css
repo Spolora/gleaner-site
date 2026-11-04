@@ -45,6 +45,18 @@ html[data-site-lang='zh'] body {
   font-size: 0.94rem;
 }
 
+html[data-site-lang='zh'] .section h2 {
+  font-size: clamp(1.2rem, 2.6vw, 1.65rem);
+}
+
+html[data-site-lang='zh'] .map-stat {
+  font-size: clamp(0.92rem, 1.8vw, 1.12rem);
+}
+
+html[data-site-lang='zh'] .map-stat span {
+  font-size: 0.74rem;
+}
+
 a {
   color: var(--teal-deep);
   text-decoration: none;
