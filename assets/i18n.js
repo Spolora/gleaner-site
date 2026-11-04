@@ -13,7 +13,6 @@
       navSupport: 'Support',
       navHome: 'Home',
       navContact: 'Contact',
-      followBrowser: 'Follow browser',
       langLocal: '中文',
       langEn: 'English',
       langGroup: 'Language',
@@ -74,7 +73,6 @@
       navSupport: '支持',
       navHome: '首页',
       navContact: '联系',
-      followBrowser: '跟随浏览器',
       langLocal: '中文',
       langEn: 'English',
       langGroup: '语言',
@@ -202,18 +200,9 @@
     if (meta && metaKey) meta.setAttribute('content', t(metaKey, lang));
   }
 
-  function syncControls(pref, lang) {
-    var follow = pref === 'auto';
-    document.querySelectorAll('[data-lang-follow]').forEach(function (btn) {
-      var on = follow;
-      btn.classList.toggle('is-active', on);
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-    });
+  function syncControls(_pref, lang) {
     document.querySelectorAll('[data-lang-choice]').forEach(function (btn) {
-      var choice = btn.getAttribute('data-lang-choice');
-      var on = !follow && choice === lang;
-      // When following browser, still hint which language is active.
-      if (follow) on = choice === lang;
+      var on = btn.getAttribute('data-lang-choice') === lang;
       btn.classList.toggle('is-active', on);
       btn.setAttribute('aria-pressed', on ? 'true' : 'false');
     });
@@ -252,11 +241,6 @@
   }
 
   function bindControls() {
-    document.querySelectorAll('[data-lang-follow]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        setPref('auto');
-      });
-    });
     document.querySelectorAll('[data-lang-choice]').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var choice = btn.getAttribute('data-lang-choice');
