@@ -36,7 +36,7 @@
         'Soft lights mark countries where someone used Gleaner recently — a reminder that we share the same Earth, learning in parallel. Drag to spin, scroll to zoom.',
       mapLoading: 'Loading presence…',
       mapNote:
-        'Country/region-level only (Hong Kong, Macao, and Taiwan are labeled HK/MO/TW (CN) and counted separately). No cities, no IP pins, no names — we cannot tell who you are from this map. The globe opens facing your region (guessed from your timezone, not GPS). Color ≈ active learners per country/region (avg. daily anonymous check-ins over the last 14 days; turn off in Settings).',
+        'This map stays at country or region level only. It shows anonymous activity in aggregate, with no cities, no IP pins, and no names, so no user can be identified from the globe. When the page opens, Earth gently turns toward a familiar side of the world to make browsing easier. Color roughly reflects average daily anonymous check-ins by country or region over the last fourteen days, and you can turn that sharing off in the extension settings.',
       mapBorders: 'Borders',
       mapSatellite: 'Satellite',
       mapLegendFewer: 'Fewer active',
@@ -95,7 +95,7 @@
         '柔和的光点标出近期有人使用 Gleaner 的国家——提醒我们在同一颗星球上并行学习；拖动旋转，滚轮缩放',
       mapLoading: '正在加载活跃数据…',
       mapNote:
-        '仅到国家（地区）级别（香港、澳门、台湾分别计为 HK/MO/TW (CN)）；没有城市、没有 IP 钉点、没有姓名——无法从这张地图认出你是谁；地球默认朝向你的地区（由时区猜测，不是 GPS）；颜色 ≈ 各国（地区）活跃学习者（近 14 日匿名签到日均；可在扩展设置中关闭）',
+        '仅到国家（地区）级别。地图只汇总国家或地区维度的匿名活跃，不会落到城市，也不会用 IP 钉点或姓名，因此无法从这张图认出具体的用户。打开页面时，地球会先大致转到与你相近的一面，方便你从熟悉的方位开始浏览。颜色深浅约等于各国（地区）近十四日匿名签到的日均活跃，也可在扩展设置中关闭该分享',
       mapBorders: '国界',
       mapSatellite: '卫星',
       mapLegendFewer: '较少活跃',
