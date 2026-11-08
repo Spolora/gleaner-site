@@ -9,7 +9,7 @@ Kept separate from the private app repo so it can stay public on GitHub Free + G
 
 ## Community map
 
-The home page loads anonymous **country-level** active-learner counts (avg daily check-ins over ~14 days) via Supabase RPC `presence_recent`.  
+The home page loads anonymous **country/region-level** active-learner counts (avg daily check-ins over ~14 days) via Supabase RPC `presence_recent`. Hong Kong / Macao / Taiwan are stored as `HK` / `MO` / `TW` and labeled `HK (CN)` / `MO (CN)` / `TW (CN)` on the globe.  
 Configure `config.js` with the project URL and anon key (same public values as the extension).
 
 Run the `presence_daily` / `ping_presence` / `presence_recent` DDL from the app repo `supabase/schema.sql` in the Supabase SQL Editor before expecting live dots.

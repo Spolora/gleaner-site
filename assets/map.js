@@ -1,5 +1,5 @@
 /**
- * Interactive Earth with anonymous country-level presence dots.
+ * Interactive Earth with anonymous country/region-level presence dots.
  * Modes: satellite texture | political borders. Flat circles; color = activity.
  * pointResolution / ringResolution raised so zoomed markers stay round (not hex).
  */
@@ -48,6 +48,7 @@ const CENTROIDS = {
   LK: [7.9, 80.8],
   CN: [35.9, 104.2],
   HK: [22.3, 114.2],
+  MO: [22.2, 113.5],
   TW: [23.7, 120.9],
   JP: [36.2, 138.3],
   KR: [35.9, 127.8],
@@ -151,6 +152,8 @@ const LANG_COUNTRY = {
   'zh-CN': 'CN',
   'zh-Hans': 'CN',
   'zh-TW': 'TW',
+  'zh-HK': 'HK',
+  'zh-MO': 'MO',
   'zh-Hant': 'TW',
   ja: 'JP',
   ko: 'KR',
@@ -238,8 +241,17 @@ function colorForHits(hits) {
   return `rgb(${r},${g},${bl})`;
 }
 
+/** Display label: HK/MO/TW → "HK (CN)" etc. */
+function formatCountryLabel(code) {
+  const c = String(code || '')
+    .trim()
+    .toUpperCase();
+  if (c === 'HK' || c === 'MO' || c === 'TW') return `${c} (CN)`;
+  return c;
+}
+
 function toPoints(rows) {
-  const usable = rows.filter((r) => CENTROIDS[r.country_code]);
+  const usable = (rows || []).filter((r) => CENTROIDS[r.country_code]);
   let total = 0;
   const points = usable.map((row) => {
     total += row.hits;
@@ -250,7 +262,7 @@ function toPoints(rows) {
       lng,
       size: 1.15,
       altitude: 0.005,
-      country: row.country_code,
+      country: formatCountryLabel(row.country_code),
       hits: row.hits,
       color: colorForHits(row.hits),
       ringMax: 2.6 + t * 2.4,
