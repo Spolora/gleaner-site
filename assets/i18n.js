@@ -36,7 +36,7 @@
         'Soft lights mark countries where someone used Gleaner recently — a reminder that we share the same Earth, learning in parallel. Drag to spin, scroll to zoom.',
       mapLoading: 'Loading presence…',
       mapNote:
-        'This map stays at country or region level only. It shows anonymous activity in aggregate, with no cities, no IP pins, and no names, so no user can be identified from the globe. When the page opens, Earth gently turns toward a familiar side of the world to make browsing easier. Color roughly reflects average daily anonymous check-ins by country or region over the last fourteen days, and you can turn that sharing off in the extension settings.',
+        'This map stays at country or region level only. It shows anonymous activity in aggregate: no city detail, no precise location from network addresses, and no names, so no user can be identified from the globe. When the page opens, Earth gently turns toward a familiar side of the world to make browsing easier. Color roughly reflects average daily anonymous check-ins by country or region over the last fourteen days, and you can turn that sharing off in the extension settings',
       mapBorders: 'Borders',
       mapSatellite: 'Satellite',
       mapLegendFewer: 'Fewer active',
@@ -95,7 +95,7 @@
         '柔和的光点标出近期有人使用 Gleaner 的国家——提醒我们在同一颗星球上并行学习；拖动旋转，滚轮缩放',
       mapLoading: '正在加载活跃数据…',
       mapNote:
-        '仅到国家（地区）级别。地图只汇总国家或地区维度的匿名活跃，不会落到城市，也不会用 IP 钉点或姓名，因此无法从这张图认出具体的用户。打开页面时，地球会先大致转到与你相近的一面，方便你从熟悉的方位开始浏览。颜色深浅约等于各国（地区）近十四日匿名签到的日均活跃，也可在扩展设置中关闭该分享',
+        '仅到国家（地区）级别，地图只汇总国家或地区维度的匿名活跃，不会落到城市，也不会根据ip精确定位，更不会显示任何姓名，因此无法从这张图认出具体的用户。打开页面时，地球会先大致转到与您相近的一面，方便您从熟悉的方位开始浏览。颜色深浅约等于各国（地区）近十四日匿名签到的日均活跃，也可在扩展设置中关闭该分享',
       mapBorders: '国界',
       mapSatellite: '卫星',
       mapLegendFewer: '较少活跃',
