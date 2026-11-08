@@ -36,7 +36,7 @@
         'Soft lights mark countries where someone used Gleaner recently — a reminder that we share the same Earth, learning in parallel. Drag to spin, scroll to zoom.',
       mapLoading: 'Loading presence…',
       mapNote:
-        'This map stays at country or region level only. It shows anonymous activity in aggregate: no city detail, no precise location from network addresses, and no names, so no user can be identified from the globe. When the page opens, Earth gently turns toward a familiar side of the world to make browsing easier. Color roughly reflects average daily anonymous check-ins by country or region over the last fourteen days, and you can turn that sharing off in the extension settings',
+        'This map stays at country or region level only. It shows anonymous activity in aggregate: no city detail, no precise location from network addresses, and no names, so no user can be identified from the globe. When the page opens, Earth gently turns toward a familiar side of the world to make browsing easier. Color roughly reflects average daily anonymous check-ins by country or region over the last fourteen days, and you can turn that sharing off in the extension settings.',
       mapBorders: 'Borders',
       mapSatellite: 'Satellite',
       mapLegendFewer: 'Fewer active',
