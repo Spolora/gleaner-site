@@ -235,9 +235,10 @@ a:hover {
   padding: 0.68rem 1.2rem;
   font-size: 0.9rem;
   font-weight: 560;
-  border: 0;
+  border: 1.5px solid transparent;
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+  transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease, box-shadow 0.2s ease;
   text-decoration: none;
 }
 
@@ -249,21 +250,26 @@ a:hover {
 .btn-primary {
   background: var(--teal);
   color: #fff;
+  border-color: var(--teal);
 }
 
 .btn-primary:hover {
   background: var(--teal-deep);
+  border-color: var(--teal-deep);
   color: #fff;
+  box-shadow: 0 8px 20px rgba(13, 138, 128, 0.22);
 }
 
 .btn-ghost {
-  background: var(--sand);
-  color: var(--ink-soft);
+  background: transparent;
+  color: var(--teal-deep);
+  border-color: rgba(10, 107, 99, 0.55);
 }
 
 .btn-ghost:hover {
-  background: #ebe4d8;
-  color: var(--ink);
+  background: var(--teal-soft);
+  border-color: var(--teal-deep);
+  color: var(--teal-deep);
 }
 
 .section {
