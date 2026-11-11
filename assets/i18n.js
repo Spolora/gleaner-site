@@ -56,7 +56,7 @@
       policyKicker: 'Spolora · Gleaner',
       policyLead:
         'Cards stay on your device by default. Sign-in is optional. When a lookup needs the network, we only send the text you selected — not your browsing history.',
-      policyMeta: 'Last updated: October 21, 2026',
+      policyMeta: 'Last updated: November 12, 2026',
       policySum1: 'Local-first by default',
       policySum2: 'Offline English lexicon on device',
       policySum3: 'No sale of your data',
@@ -114,7 +114,7 @@
       policyKicker: 'Spolora · Gleaner',
       policyLead:
         '卡片默认只留在本机；登录可选；需要联网查词时，我们只发送你划选的文本——不会上传浏览历史',
-      policyMeta: '最近更新：2026 年 10 月 21 日',
+      policyMeta: '最近更新：2026 年 11 月 12 日',
       policySum1: '默认本地优先',
       policySum2: '本机离线英语词库',
       policySum3: '不出售你的数据',

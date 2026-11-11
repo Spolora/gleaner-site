@@ -71,7 +71,7 @@
           history.
         </p>
         <p class="policy-meta" data-i18n="policyMeta">
-          Last updated: October 21, 2026
+          Last updated: November 12, 2026
         </p>
         <ul class="policy-summary">
           <li data-i18n="policySum1">Local-first by default</li>
@@ -206,9 +206,11 @@
 
         <h3>Permissions</h3>
         <p>
-          Gleaner asks for access needed to read the current page selection, show the side panel,
-          store settings, and (where available) complete sign-in. Host access is used so dictionary
-          and sync requests can run from the extension.
+          Gleaner asks for access needed to read the current page selection on pages you browse,
+          show the side panel, store settings, and (where available) complete sign-in. Host access
+          lets content scripts read the text you select on those pages, and lets dictionary and sync
+          requests run from the extension. We do not use this access to collect your browsing
+          history.
         </p>
 
         <h3>Retention and deletion</h3>
@@ -334,7 +336,7 @@
 
         <h3>权限说明</h3>
         <p>
-          扩展需要读取当前页的选中文本、打开侧边栏、保存设置，并在支持的浏览器中完成登录；主机访问权限用于词典查询与同步请求
+          扩展需要在你浏览的网页上读取当前选中文本、打开侧边栏、保存设置，并在支持的浏览器中完成登录；主机访问权限用于在这些页面上运行划词脚本，以及发起词典查询与同步请求。我们不会用该权限收集你的浏览历史。
         </p>
 
         <h3>保存与删除</h3>
@@ -375,6 +377,6 @@
       </div>
     </footer>
 
-    <script src="./assets/i18n.js?v=7"></script>
+    <script src="./assets/i18n.js?v=8"></script>
   </body>
 </html>
