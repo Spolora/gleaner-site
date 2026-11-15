@@ -1,7 +1,7 @@
 /**
  * Site UI languages (aligned with the extension).
  * Preference: gleaner.siteLang = one of SITE_LANGS | 'auto'.
- * Privacy body panels: zh → Chinese text, all others → English text.
+ * Privacy full bodies: inline en/zh in privacy.html; ja/ko/de/fr/es/pt/ar/ru in policy-bodies.js.
  */
 (function () {
   var STORAGE = 'gleaner.siteLang';
@@ -215,7 +215,7 @@
       policySum2: '本机离线英语词库',
       policySum3: '不出售你的数据',
       policySum4: '可选登录同步',
-      policyBodyNote: '下方正文为完整中文隐私政策。',
+      policyBodyNote: '下方为完整隐私政策正文',
       docTitleHome: 'Gleaner · 在你本来阅读的地方学英语',
       docTitlePrivacy: 'Gleaner 隐私政策',
       metaHome:
@@ -273,7 +273,7 @@
       policySum2: '端末内の英語レキシコン',
       policySum3: 'データの販売なし',
       policySum4: '任意の同期',
-      policyBodyNote: '以下の全文は英語（または中国語選択時は中国語）で表示されます',
+      policyBodyNote: '以下にプライバシーポリシー全文を表示します',
       docTitleHome: 'Gleaner · いつもの読書の場所で英語を',
       docTitlePrivacy: 'Gleaner プライバシーポリシー',
       metaHome:
@@ -330,7 +330,7 @@
       policySum2: '기기 내 영어 사전',
       policySum3: '데이터 판매 없음',
       policySum4: '선택적 동기화',
-      policyBodyNote: '아래 전문은 영어(중국어 선택 시 중국어)로 표시됩니다.',
+      policyBodyNote: '아래에 개인정보 처리방침 전문이 표시됩니다',
       docTitleHome: 'Gleaner · 이미 읽는 곳에서 영어를',
       docTitlePrivacy: 'Gleaner 개인정보 처리방침',
       metaHome:
@@ -389,7 +389,7 @@
       policySum3: 'Kein Verkauf deiner Daten',
       policySum4: 'Optionale Sync-Anmeldung',
       policyBodyNote:
-        'Der vollständige Richtlinientext unten erscheint auf Englisch (oder Chinesisch, wenn gewählt).',
+        'Der vollständige Datenschutztext folgt unten',
       docTitleHome: 'Gleaner · Englisch dort lernen, wo du schon liest',
       docTitlePrivacy: 'Gleaner Datenschutzrichtlinie',
       metaHome:
@@ -448,7 +448,7 @@
       policySum3: 'Pas de vente de vos données',
       policySum4: 'Sync optionnelle',
       policyBodyNote:
-        'Le texte intégral ci-dessous s’affiche en anglais (ou en chinois si cette langue est choisie).',
+        'Le texte complet de la politique de confidentialité figure ci-dessous',
       docTitleHome: 'Gleaner · Apprendre l’anglais là où vous lisez déjà',
       docTitlePrivacy: 'Politique de confidentialité Gleaner',
       metaHome:
@@ -507,7 +507,7 @@
       policySum3: 'No vendemos tus datos',
       policySum4: 'Sincronización opcional',
       policyBodyNote:
-        'El texto completo abajo se muestra en inglés (o en chino si eliges ese idioma).',
+        'A continuación se muestra el texto completo de la política de privacidad',
       docTitleHome: 'Gleaner · Aprende inglés donde ya lees',
       docTitlePrivacy: 'Política de privacidad de Gleaner',
       metaHome:
@@ -566,7 +566,7 @@
       policySum3: 'Não vendemos os teus dados',
       policySum4: 'Sincronização opcional',
       policyBodyNote:
-        'O texto completo abaixo aparece em inglês (ou em chinês se escolheres esse idioma).',
+        'O texto completo da política de privacidade aparece abaixo',
       docTitleHome: 'Gleaner · Aprende inglês onde já lês',
       docTitlePrivacy: 'Política de privacidade do Gleaner',
       metaHome:
@@ -683,7 +683,7 @@
       policySum3: 'Мы не продаём ваши данные',
       policySum4: 'Опциональная синхронизация',
       policyBodyNote:
-        'Полный текст ниже показан на английском (или на китайском, если выбран китайский).',
+        'Ниже приведён полный текст политики конфиденциальности',
       docTitleHome: 'Gleaner · Учите английский там, где уже читаете',
       docTitlePrivacy: 'Политика конфиденциальности Gleaner',
       metaHome:
