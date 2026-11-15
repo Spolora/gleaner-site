@@ -69,8 +69,10 @@
       '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="14" fill="#C60B1E"/><rect y="3.5" width="20" height="7" fill="#FFC400"/></svg>',
     pt:
       '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="14" fill="#FF0000"/><rect width="8" height="14" fill="#006600"/><circle cx="8" cy="7" r="2.35" fill="#FFCC00"/></svg>',
+    // UAE — clean pan-Arab colors that stay recognizable at 18×12
+    // (Saudi shahada becomes an illegible blob at this size).
     ar:
-      '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="14" fill="#006C35"/><rect x="3" y="6.2" width="14" height="1.6" rx="0.3" fill="#fff"/></svg>',
+      '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="5" height="14" fill="#FF0000"/><rect x="5" width="15" height="4.67" fill="#00732F"/><rect x="5" y="4.67" width="15" height="4.67" fill="#fff"/><rect x="5" y="9.34" width="15" height="4.66" fill="#000"/></svg>',
     ru:
       '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="4.67" fill="#fff"/><rect y="4.67" width="20" height="4.67" fill="#0039A6"/><rect y="9.34" width="20" height="4.66" fill="#D52B1E"/></svg>',
   };
