@@ -834,18 +834,27 @@
     });
   }
 
-  /** Privacy full text: zh panel for Chinese; English for every other UI language. */
+  /** Show the privacy body panel that matches the UI language. */
   function applyPolicyPanels(lang) {
+    if (window.GleanerPolicyBodies && window.GleanerPolicyBodies.mount) {
+      window.GleanerPolicyBodies.mount();
+    }
     var panels = document.querySelectorAll('[data-policy-panel]');
     if (!panels.length) return;
-    var bodyLang = lang === 'zh' ? 'zh' : 'en';
+    var has = false;
     panels.forEach(function (panel) {
-      panel.hidden = panel.getAttribute('data-policy-panel') !== bodyLang;
+      var on = panel.getAttribute('data-policy-panel') === lang;
+      if (on) has = true;
+      panel.hidden = !on;
     });
-    var note = document.querySelector('[data-policy-body-note]');
-    if (note) {
-      note.hidden = lang === 'zh' || lang === 'en';
+    // Fallback to English if a language panel is missing.
+    if (!has) {
+      panels.forEach(function (panel) {
+        panel.hidden = panel.getAttribute('data-policy-panel') !== 'en';
+      });
     }
+    var note = document.querySelector('[data-policy-body-note]');
+    if (note) note.hidden = true;
   }
 
   function ensureLangSwitch() {
@@ -897,10 +906,7 @@
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.setAttribute('data-site-lang', lang);
     document.documentElement.setAttribute('data-site-lang-pref', p);
-    document.documentElement.setAttribute(
-      'data-policy-lang',
-      lang === 'zh' ? 'zh' : 'en',
-    );
+    document.documentElement.setAttribute('data-policy-lang', lang);
     ensureLangSwitch();
     applyTexts(lang);
     applyPolicyPanels(lang);
