@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Great+Vibes&family=Noto+Naskh+Arabic:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
 
 :root {
   color-scheme: light;
@@ -35,6 +35,20 @@ html[data-site-lang='ko'] body {
   letter-spacing: -0.01em;
   word-break: keep-all;
   line-height: 1.55;
+}
+
+html[data-site-lang='ar'] {
+  --serif: "Noto Naskh Arabic", "Noto Sans Arabic", Tahoma, "Segoe UI", sans-serif;
+  --sans: "Noto Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --display: "Noto Naskh Arabic", "Noto Sans Arabic", Tahoma, sans-serif;
+}
+
+html[dir='rtl'] .hero-title {
+  white-space: normal;
+}
+
+bdi {
+  unicode-bidi: isolate;
 }
 
 * {
@@ -670,9 +684,8 @@ a:hover {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding-left: 1.35rem;
-  padding-right: 1.35rem;
-  text-align: left;
+  padding-inline: 1.35rem;
+  text-align: start;
 }
 
 .policy-hero-inner {
@@ -773,7 +786,7 @@ a:hover {
 
 .policy ul {
   margin: 0 0 0.5rem;
-  padding-left: 1.2rem;
+  padding-inline-start: 1.2rem;
 }
 
 .policy table {
@@ -791,7 +804,7 @@ a:hover {
 .policy th,
 .policy td {
   padding: 0.55rem 0.75rem;
-  text-align: left;
+  text-align: start;
   vertical-align: top;
   border-bottom: 1px solid var(--line);
   line-height: 1.45;
