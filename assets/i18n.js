@@ -6,6 +6,8 @@
 (function () {
   var STORAGE = 'gleaner.siteLang';
   var LEGACY = 'gleaner.policyLang';
+  /** Bumps once to clear sticky zh/en that blocked “follow browser” after detect fix. */
+  var DETECT_MIGRATE = 'gleaner.siteLang.detectV2';
 
   var SITE_LANGS = [
     'en',
@@ -688,27 +690,34 @@
     }),
   };
 
-  function browserLangs() {
-    var langs = [];
-    try {
-      langs = Array.prototype.slice.call(navigator.languages || []);
-    } catch (e) {}
-    if (!langs.length && navigator.language) langs = [navigator.language];
-    return langs;
+  function matchBrowserLang(tag) {
+    var lower = String(tag || '').toLowerCase();
+    var j;
+    for (j = 0; j < BROWSER_PREFIX.length; j++) {
+      if (lower.indexOf(BROWSER_PREFIX[j].prefix) === 0) {
+        return BROWSER_PREFIX[j].lang;
+      }
+    }
+    return null;
   }
 
+  /**
+   * Same idea as the extension: prefer the browser UI / primary language
+   * (`navigator.language`), then fall back through `navigator.languages`.
+   * Using the full list first wrongly kept Chinese when UI was Japanese but
+   * zh still ranked higher in Accept-Language.
+   */
   function browserUiLanguage() {
-    var list = browserLangs();
+    var hit = matchBrowserLang(navigator.language || '');
+    if (hit) return hit;
+    var list = [];
+    try {
+      list = Array.prototype.slice.call(navigator.languages || []);
+    } catch (e) {}
     var i;
-    var lower;
-    var j;
     for (i = 0; i < list.length; i++) {
-      lower = String(list[i] || '').toLowerCase();
-      for (j = 0; j < BROWSER_PREFIX.length; j++) {
-        if (lower.indexOf(BROWSER_PREFIX[j].prefix) === 0) {
-          return BROWSER_PREFIX[j].lang;
-        }
-      }
+      hit = matchBrowserLang(list[i]);
+      if (hit) return hit;
     }
     return 'en';
   }
@@ -721,12 +730,25 @@
     return typeof v === 'string' && SITE_LANG_SET[v];
   }
 
-  function readPref() {
+  function migrateDetectPref() {
     try {
-      var v = localStorage.getItem(STORAGE) || '';
+      if (localStorage.getItem(DETECT_MIGRATE) === '1') return;
+      localStorage.setItem(DETECT_MIGRATE, '1');
+      localStorage.removeItem(LEGACY);
+      // Force one return to auto so browser UI language wins after the fix.
+      var cur = localStorage.getItem(STORAGE);
+      if (isSiteLang(cur)) localStorage.setItem(STORAGE, 'auto');
+    } catch (e) {}
+  }
+
+  function readPref() {
+    migrateDetectPref();
+    try {
+      var v = localStorage.getItem(STORAGE);
       if (v === 'auto' || isSiteLang(v)) return v;
-      var legacy = localStorage.getItem(LEGACY) || '';
-      if (legacy === 'en' || legacy === 'zh') return legacy;
+      try {
+        localStorage.removeItem(LEGACY);
+      } catch (e2) {}
     } catch (e) {}
     return 'auto';
   }
@@ -734,11 +756,9 @@
   function writePref(pref) {
     try {
       localStorage.setItem(STORAGE, pref);
-      if (pref === 'en' || pref === 'zh') {
-        localStorage.setItem(LEGACY, pref);
-      } else {
+      try {
         localStorage.removeItem(LEGACY);
-      }
+      } catch (e2) {}
     } catch (e) {}
   }
 
