@@ -779,11 +779,37 @@
     if (meta && metaKey) meta.setAttribute('content', t(metaKey, lang));
   }
 
+  function closeAllLangMenus() {
+    document.querySelectorAll('[data-lang-switch].is-open').forEach(function (host) {
+      host.classList.remove('is-open');
+      var trigger = host.querySelector('[data-lang-trigger]');
+      if (trigger) trigger.setAttribute('aria-expanded', 'false');
+    });
+  }
+
   function syncControls(_pref, lang) {
-    document.querySelectorAll('[data-lang-choice]').forEach(function (btn) {
-      var on = btn.getAttribute('data-lang-choice') === lang;
-      btn.classList.toggle('is-active', on);
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    document.querySelectorAll('[data-lang-switch]').forEach(function (host) {
+      var trigger = host.querySelector('[data-lang-trigger]');
+      var current = host.querySelector('[data-lang-current]');
+      if (current) {
+        current.innerHTML =
+          '<span class="lang-flag" aria-hidden="true">' +
+          (FLAG_SVG[lang] || '') +
+          '</span><span class="lang-name">' +
+          (LANG_LABEL[lang] || lang) +
+          '</span>';
+      }
+      if (trigger) {
+        trigger.setAttribute(
+          'aria-label',
+          (t('langGroup', lang) || 'Language') + ': ' + (LANG_LABEL[lang] || lang),
+        );
+      }
+      host.querySelectorAll('[data-lang-choice]').forEach(function (btn) {
+        var on = btn.getAttribute('data-lang-choice') === lang;
+        btn.classList.toggle('is-active', on);
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
     });
   }
 
@@ -806,21 +832,40 @@
       if (host.getAttribute('data-built') === '1') return;
       host.setAttribute('data-built', '1');
       host.classList.add('lang-switch');
-      host.setAttribute('role', 'group');
+
+      var trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'lang-trigger';
+      trigger.setAttribute('data-lang-trigger', '1');
+      trigger.setAttribute('aria-haspopup', 'listbox');
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.innerHTML =
+        '<span class="lang-current" data-lang-current></span>' +
+        '<span class="lang-caret" aria-hidden="true"></span>';
+
+      var menu = document.createElement('div');
+      menu.className = 'lang-menu';
+      menu.setAttribute('role', 'listbox');
+      menu.setAttribute('data-lang-menu', '1');
+
       SITE_LANGS.forEach(function (code) {
         var btn = document.createElement('button');
         btn.type = 'button';
+        btn.className = 'lang-option';
+        btn.setAttribute('role', 'option');
         btn.setAttribute('data-lang-choice', code);
-        btn.setAttribute('aria-pressed', 'false');
-        btn.setAttribute('aria-label', LANG_LABEL[code] || code);
+        btn.setAttribute('aria-selected', 'false');
         btn.innerHTML =
           '<span class="lang-flag" aria-hidden="true">' +
           (FLAG_SVG[code] || '') +
           '</span><span class="lang-name">' +
           (LANG_LABEL[code] || code) +
           '</span>';
-        host.appendChild(btn);
+        menu.appendChild(btn);
       });
+
+      host.appendChild(trigger);
+      host.appendChild(menu);
     });
   }
 
@@ -839,6 +884,7 @@
     applyTexts(lang);
     applyPolicyPanels(lang);
     syncControls(p, lang);
+    closeAllLangMenus();
     try {
       window.dispatchEvent(
         new CustomEvent('gleaner:lang', { detail: { pref: p, lang: lang } }),
@@ -855,12 +901,34 @@
 
   function bindControls() {
     document.addEventListener('click', function (e) {
-      var btn = e.target && e.target.closest
-        ? e.target.closest('[data-lang-choice]')
-        : null;
-      if (!btn) return;
-      var choice = btn.getAttribute('data-lang-choice');
-      if (isSiteLang(choice)) setPref(choice);
+      var target = e.target;
+      if (!target || !target.closest) return;
+
+      var option = target.closest('[data-lang-choice]');
+      if (option) {
+        var choice = option.getAttribute('data-lang-choice');
+        if (isSiteLang(choice)) setPref(choice);
+        return;
+      }
+
+      var trigger = target.closest('[data-lang-trigger]');
+      if (trigger) {
+        var host = trigger.closest('[data-lang-switch]');
+        if (!host) return;
+        var open = !host.classList.contains('is-open');
+        closeAllLangMenus();
+        if (open) {
+          host.classList.add('is-open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+        return;
+      }
+
+      if (!target.closest('[data-lang-switch]')) closeAllLangMenus();
+    });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAllLangMenus();
     });
   }
 

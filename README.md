@@ -20,7 +20,7 @@ Privacy questions: [GitHub Issues](https://github.com/Spolora/gleaner-site/issue
 
 ## Languages
 
-Home and privacy chrome follow the extension UI languages (`en` / `zh` / `ja` / `ko` / `de` / `fr` / `es` / `pt` / `ar` / `ru`). The header switcher uses native names + SVG flags; the active language is underlined. Preference is stored in `localStorage` as `gleaner.siteLang`.
+Home and privacy chrome follow the extension UI languages (`en` / `zh` / `ja` / `ko` / `de` / `fr` / `es` / `pt` / `ar` / `ru`). The header uses a compact dropdown (native name + SVG flag). Preference is stored in `localStorage` as `gleaner.siteLang`.
 
 Privacy **body** text is maintained in English and Chinese only; other UI languages show the English body (with a short note).
 
