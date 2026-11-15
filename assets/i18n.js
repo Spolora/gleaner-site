@@ -231,13 +231,13 @@
       langGroup: '言語',
       heroTitle: 'いつもの読書のページから、英語を拾う',
       heroLead:
-        '単語をハイライトし、文ごと残す。あとで復習し、必要なら Anki へ——静かに読書に寄り添う',
+        '単語をハイライトし、文ごと残す；あとで復習し、必要なら Anki へ——静かに読書に寄り添う',
       ctaChrome: 'Chrome に追加',
       ctaCommunity: '誰が学んでいるか見る',
       ctaPrivacy: 'プライバシーについて',
       productTitle: '読書の邪魔をしないために',
       productLead:
-        '普段は静か。必要なときだけ、その語を覚えた理由が残るだけの文脈を残します',
+        '普段は静か；必要なときだけ、その語を覚えた理由が残るだけの文脈を残します',
       featSelectTitle: '選択して保存',
       featSelectBody: '単語・フレーズ・文——出会った一文ごと',
       featReviewTitle: '静かに復習',
@@ -246,10 +246,10 @@
       featExportBody: '間隔反復が必要なら、デッキをそのまま持ち出せます',
       communityTitle: 'ひとつの地球、多くの読者',
       communityLead:
-        '最近 Gleaner が使われた国をやわらかい光で示します。ドラッグで回転、スクロールでズーム',
+        '最近 Gleaner が使われた国をやわらかい光で示します；ドラッグで回転、スクロールでズーム',
       mapLoading: 'アクティブデータを読み込み中…',
       mapNote:
-        '地図は国・地域レベルの匿名アクティビティのみ。都市や個人は特定できません。色の濃さは直近14日の日次平均に近い値です。拡張の設定で共有をオフにできます',
+        '地図は国・地域レベルの匿名アクティビティのみ；都市や個人は特定できません；色の濃さは直近14日の日次平均に近い値です；拡張の設定で共有をオフにできます',
       mapBorders: '国境',
       mapSatellite: '衛星',
       mapLegendFewer: '少ない',
@@ -257,7 +257,8 @@
       mapHint: 'ドラッグで回転 · スクロールでズーム · 色 ≈ 国/地域の学習者',
       mapEarthLabel: '匿名の国・地域アクティビティ付きの地球',
       mapGlobeLoading: '地球を読み込み中…',
-      mapGlobeFail: '3D地球を読み込めませんでした。再読み込みするか別のネットワークを試してください',
+      mapGlobeFail:
+        '3D地球を読み込めませんでした；再読み込みするか別のネットワークを試してください',
       mapStatFail: '地球を表示できません <span>· 再読み込み</span>',
       mapStatEmpty: '最初の光を待っています <span>· 国/地域レベルのみ</span>',
       mapStatReady: '{countries} 地域 · 約 {learners} アクティブ <span>· 直近14日の日次平均</span>',
@@ -266,13 +267,13 @@
       footerPrivacy: 'プライバシーポリシー',
       footerContact: 'お問い合わせ',
       policyLead:
-        'カードは既定で端末内。サインインは任意。ネット検索が必要なとき送るのは選択したテキストだけです',
+        'カードは既定で端末内；サインインは任意；ネット検索が必要なとき送るのは選択したテキストだけです',
       policyMeta: '最終更新：2026年11月12日',
       policySum1: 'ローカル優先',
       policySum2: '端末内の英語レキシコン',
       policySum3: 'データの販売なし',
       policySum4: '任意の同期',
-      policyBodyNote: '以下の全文は英語（または中国語選択時は中国語）で表示されます。',
+      policyBodyNote: '以下の全文は英語（または中国語選択時は中国語）で表示されます',
       docTitleHome: 'Gleaner · いつもの読書の場所で英語を',
       docTitlePrivacy: 'Gleaner プライバシーポリシー',
       metaHome:
