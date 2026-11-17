@@ -157,24 +157,23 @@ a:hover {
   align-items: center;
   gap: 0.4rem;
   margin: 0;
-  padding: 0.28rem 0.55rem;
-  border: 1px solid var(--line);
-  border-radius: 980px;
-  background: rgba(255, 255, 255, 0.78);
-  color: var(--ink-soft);
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--soft);
   font: inherit;
-  font-size: 0.78rem;
-  font-weight: 560;
+  font-size: 0.86rem;
+  font-weight: 500;
   line-height: 1.2;
   cursor: pointer;
-  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  transition: color 0.15s ease;
 }
 
 .lang-trigger:hover,
 .lang-switch.is-open .lang-trigger {
   color: var(--teal-deep);
-  border-color: rgba(13, 138, 128, 0.35);
-  background: #fff;
+  background: transparent;
 }
 
 .lang-current {
@@ -627,6 +626,43 @@ a:hover {
 .world-globe canvas {
   display: block;
   width: 100% !important;
+}
+
+/* globe.gl hover labels — default white text vanishes on light land (borders mode) */
+.scene-tooltip {
+  color: #0f172a !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.globe-point-label {
+  padding: 7px 11px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #0f172a;
+  font: 600 12px/1.35 system-ui, -apple-system, 'Segoe UI', sans-serif;
+  box-shadow:
+    0 0 0 1px rgba(15, 23, 42, 0.1),
+    0 8px 20px rgba(15, 23, 42, 0.18);
+  white-space: nowrap;
+  text-align: left;
+}
+
+.globe-point-label strong {
+  display: block;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+}
+
+.globe-point-label span {
+  display: block;
+  margin-top: 3px;
+  font-weight: 500;
+  font-size: 11px;
+  color: #334155;
+  opacity: 1;
 }
 
 .map-hint {

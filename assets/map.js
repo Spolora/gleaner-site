@@ -420,10 +420,7 @@ async function bootMap() {
     .pointColor('color')
     // Default ~6–12 segments looks hexagonal when zoomed; 48 stays circular.
     .pointResolution(48)
-    .pointLabel((d) => {
-      const hits = i18nText('mapPointHits', { hits: d.hits });
-      return `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${hits}</span></div>`;
-    })
+    .pointLabel((d) => pointLabelHtml(d))
     .ringsData(points)
     .ringLat('lat')
     .ringLng('lng')
@@ -485,11 +482,15 @@ async function bootMap() {
 
   window.addEventListener('gleaner:lang', () => {
     renderMapStat(stat, countries, learners);
-    globe.pointLabel((d) => {
-      const hits = i18nText('mapPointHits', { hits: d.hits });
-      return `<div style="font:600 12px/1.35 system-ui,sans-serif;padding:4px 2px">${d.country}<br/><span style="opacity:.75;font-weight:500">${hits}</span></div>`;
-    });
+    globe.pointLabel((d) => pointLabelHtml(d));
   });
+}
+
+/** High-contrast hover label (readable on light land and dark ocean). */
+function pointLabelHtml(d) {
+  const hits = i18nText('mapPointHits', { hits: d.hits });
+  const country = String(d.country || '').replace(/[<>&"]/g, '');
+  return `<div class="globe-point-label"><strong>${country}</strong><span>${hits}</span></div>`;
 }
 
 bootMap();
