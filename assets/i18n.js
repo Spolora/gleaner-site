@@ -56,7 +56,7 @@
     en:
       '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="14" fill="#B22234"/><path fill="#fff" d="M0 1.08h20v1.08H0zm0 2.16h20v1.08H0zm0 2.16h20v1.08H0zm0 2.16h20v1.08H0zm0 2.16h20v1.08H0zm0 2.16h20v1.08H0z"/><rect width="8.4" height="7.56" fill="#3C3B6E"/></svg>',
     zh:
-      '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="14" fill="#DE2910"/><path fill="#FFDE00" d="M4.2 3.2 4.7 4.7 6.2 4.7 5 5.6 5.4 7.1 4.2 6.2 3 7.1 3.4 5.6 2.2 4.7 3.7 4.7Z"/></svg>',
+      '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="14" fill="#DE2910"/><g fill="#FFDE00"><path d="M4.2 2.55 4.85 4.5 6.9 4.5 5.25 5.7 5.85 7.65 4.2 6.4 2.55 7.65 3.15 5.7 1.5 4.5 3.55 4.5Z"/><path d="M8.35 1.55 8.7 2.55 9.75 2.55 8.9 3.2 9.2 4.2 8.35 3.55 7.5 4.2 7.8 3.2 6.95 2.55 8 2.55Z"/><path d="M10.05 3.35 10.4 4.35 11.45 4.35 10.6 5 10.9 6 10.05 5.35 9.2 6 9.5 5 8.65 4.35 9.7 4.35Z"/><path d="M10.05 6.15 10.4 7.15 11.45 7.15 10.6 7.8 10.9 8.8 10.05 8.15 9.2 8.8 9.5 7.8 8.65 7.15 9.7 7.15Z"/><path d="M8.35 7.85 8.7 8.85 9.75 8.85 8.9 9.5 9.2 10.5 8.35 9.85 7.5 10.5 7.8 9.5 6.95 8.85 8 8.85Z"/></g></svg>',
     ja:
       '<svg viewBox="0 0 20 14" width="18" height="12" aria-hidden="true"><rect width="20" height="14" fill="#F5F5F5"/><circle cx="10" cy="7" r="4.05" fill="#FF4B55"/></svg>',
     ko:
