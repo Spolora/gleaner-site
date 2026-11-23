@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Gleaner · Sample reading</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #15202b;
+        --mute: #5b6b7c;
+        --paper: #f5f8f8;
+        --teal: #009689;
+        --line: #d7dee6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--paper);
+      }
+      body {
+        font-family:
+          "Segoe UI",
+          "PingFang SC",
+          "Microsoft YaHei",
+          system-ui,
+          sans-serif;
+        color: var(--ink);
+        line-height: 1.65;
+      }
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background: radial-gradient(
+          ellipse 90% 55% at 50% -8%,
+          rgba(0, 150, 137, 0.1),
+          transparent 62%
+        );
+      }
+      main {
+        max-width: 40rem;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+      }
+      .kicker {
+        margin: 0 0 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--teal);
+      }
+      h1 {
+        margin: 0 0 0.75rem;
+        font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+        font-size: 1.85rem;
+        line-height: 1.2;
+        font-weight: 650;
+      }
+      .lede {
+        margin: 0 0 1.5rem;
+        color: var(--mute);
+        font-size: 1.02rem;
+      }
+      p {
+        margin: 0 0 1.1rem;
+        font-size: 1.05rem;
+      }
+      .hint {
+        margin-top: 2rem;
+        padding: 0.9rem 1rem;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid var(--line);
+        color: var(--mute);
+        font-size: 0.92rem;
+      }
+      .hint strong {
+        color: var(--ink);
+        font-weight: 650;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="kicker">Sample page · try selecting a word</p>
+      <h1>Small words that change how you read</h1>
+      <p class="lede">
+        A short practice passage for Gleaner. Select a word, then use the
+        magnifier on the page.
+      </p>
+      <p>
+        Much of good reporting is
+        <strong>serendipity</strong>: the right question asked at the right
+        door. Writers chase clarity, not
+        <strong>esoteric</strong> jargon, and still leave room for
+        <strong>nuance</strong>.
+      </p>
+      <p>
+        Every author has an
+        <strong>idiosyncratic</strong> rhythm. Online praise can feel
+        <strong>ephemeral</strong>, but careful reading compounds. Good
+        interfaces lower <strong>cognitive friction</strong> without flattening
+        ideas into slogans.
+      </p>
+      <p>
+        As a <strong>rule of thumb</strong>, revise once after you think you are
+        done. Reform that only protects the <strong>status quo</strong> rarely
+        helps readers grow.
+      </p>
+      <p class="hint">
+        <strong>Try this:</strong> select <em>serendipity</em> or
+        <em>cognitive friction</em>, open the lookup chip, then save a card in
+        the side panel when you like.
+      </p>
+    </main>
+  </body>
+</html>
